@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardLayoutComponent,
-    // canActivate: [signInGuard],
+    canActivate: [signInGuard],
     children: [
       { path: '', redirectTo: 'organizations', pathMatch: 'full' },
       {

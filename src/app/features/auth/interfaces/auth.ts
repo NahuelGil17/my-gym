@@ -5,14 +5,24 @@ export interface NewPasswordRequest {
 }
 
 export interface AuthCredentials {
-  email: string;
+  identifier: string;
   password: string;
 }
 
 export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
-  permissions: string[];
+  jwt: string;
+  user: User;
+}
+
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  provider: string;
+  confirmed: boolean;
+  blocked: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UserPreferences {

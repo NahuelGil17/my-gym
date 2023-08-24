@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Create the login form with email and password fields
     this.loginForm = this.fb.group({
-      email: [null, [Validators.required, Validators.email]],
+      identifier: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, passwordValidator()]]
     });
   }

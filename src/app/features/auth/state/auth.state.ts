@@ -26,18 +26,18 @@ export class AuthState {
 
   @Selector()
   static accessToken(state: AuthStateModel): string | undefined {
-    return state.auth?.accessToken;
+    return state.auth?.jwt;
   }
 
   @Selector()
   static isAuthenticated(state: AuthStateModel): boolean {
-    return !!state.auth?.accessToken;
+    return !!state.auth?.jwt;
   }
 
-  @Selector()
-  static permissions(state: AuthStateModel): string[] | undefined {
-    return state.auth?.permissions;
-  }
+  // @Selector()
+  // static permissions(state: AuthStateModel): string[] | undefined {
+  //   return state.auth?.permissions;
+  // }
 
   @Selector()
   static userId(state: AuthStateModel): string | undefined {
@@ -57,13 +57,13 @@ export class AuthState {
   constructor(private authService: AuthService, private utilsService: UtilsService) {}
 
   @Action(Login, { cancelUncompleted: true })
-  login(ctx: StateContext<AuthStateModel>, action: Login): Observable<void> {
+  login(ctx: StateContext<AuthStateModel>, action: Login): Observable<AuthResponse> {
     ctx.patchState({ loading: true });
     return this.authService.login(action.payload).pipe(
       tap((auth: AuthResponse) => {
         ctx.patchState({ auth });
       }),
-      exhaustMap(() => ctx.dispatch(new GetUserPreferences())),
+      // exhaustMap(() => ctx.dispatch(new GetUserPreferences())),
       tap(() => {
         ctx.patchState({ loading: false });
       }),
@@ -77,7 +77,7 @@ export class AuthState {
   @Action(GetUserPreferences, { cancelUncompleted: true })
   getUserPreferences(ctx: StateContext<AuthStateModel>): Observable<UserPreferences> {
     ctx.patchState({ preferences: null });
-    const accessToken = ctx.getState().auth?.accessToken;
+    const accessToken = ctx.getState().auth?.jwt;
     const userId = this.utilsService.getUserIdFromToken(accessToken!);
 
     return this.authService.getUserPreferences(userId).pipe(

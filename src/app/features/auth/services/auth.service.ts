@@ -11,7 +11,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(credentials: AuthCredentials): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${environment.api}/auth/login`, credentials);
+    return this.http.post<AuthResponse>(`${environment.api}/auth/local`, credentials);
   }
 
   getUserPreferences(userId: string): Observable<UserPreferences> {
