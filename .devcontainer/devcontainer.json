@@ -1,0 +1,63 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
+{
+  "name": "Node.js & TypeScript",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:0-18",
+  "features": {
+    "ghcr.io/devcontainers-contrib/features/angular-cli:2": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "mutantdino.resourcemonitor",
+        "dbaeumer.vscode-eslint",
+        "angular.ng-template",
+        "cyrilletuzi.angular-schematics",
+        "johnpapa.angular2",
+        "obenjiro.arrr",
+        "mutantdino.resourcemonitor",
+        "vivaxy.vscode-conventional-commits",
+        "bradlc.vscode-tailwindcss",
+        "eamodio.gitlens",
+        "yoavbls.pretty-ts-errors",
+        "codium.codium",
+        "ms-vsliveshare.vsliveshare"
+      ],
+      "settings": {
+        "files.eol": "\n",
+        "editor.tabSize": 2,
+        "remote.extensionKind": {
+          "ms-azuretools.vscode-docker": "workspace"
+        },
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true
+        },
+        "eslint.validate": ["javascript", "typescript"],
+        "editor.formatOnSave": true,
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": false
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": false
+        },
+        "prettier-eslint.eslintIntegration": true
+      }
+    }
+  },
+  //Mount the WSL ssh keys inside of the container.
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
+    //"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+  ],
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "npm install && echo 'source <(ng completion script)' >> ~/.bashrc",
+  //"postCreateCommand": "npm install && npm run prepare && echo 'source <(ng completion script)' >> ~/.bashrc",
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  "remoteUser": "root"
+}

@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+LC_ALL=C
+local_branch="$(git rev-parse --abbrev-ref HEAD)"
+#valid_branch_regex="^(feature|bugfix|improvement|prerelease|release|hotfix)\/[a-zA-Z0-9._-]+$"
+
+echo -e "===\n>> Pre-Commit Hook: Checking branch name: $local_branch"
+npx validate-branch-name -r "^(feature|bugfix|improvement|prerelease|release|hotfix|infra)\/([0-9]*)-[a-zA-Z0-9._-]+$"
+echo -e ">> Finish checking branch name.\n==="
+
+echo -e "===\n>> Pre-Commit Hook: Run prettier-quick"
+npx pretty-quick --pattern "src/**/*.*(ts|json|html|scss)" --staged
+echo -e ">> Finish prettier-quick.\n=="
+
+echo -e "===\n>> Pre-Commit Hook: Run lint"
+npm run lint
+echo -e ">> Finish Run lint.\n=="

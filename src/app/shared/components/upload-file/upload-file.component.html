@@ -1,0 +1,37 @@
+<div class="grid grid-flow-row gap-4">
+  <div
+    appDnd
+    (fileDropped)="uploadFile($event, true)"
+    class="flex justify-center px-6 pt-5 pb-6 border-2 border-primary-400 border-dashed rounded-md">
+    <div class="space-y-1 text-center">
+      <i class="ph-cloud-arrow-up text-4xl text-gray-500"></i>
+      <div class="flex text-sm text-gray-600">
+        <label
+          for="file-upload"
+          class="relative cursor-pointer rounded-md font-bold text-primary-400 hover:text-primary-300 focus-within:outline-none focus-within:ring-offset-2 focus-within:ring-primary-300">
+          <span class="focus:outline-none">Click to upload</span>
+          <input
+            id="file-upload"
+            name="file-upload"
+            [multiple]="allowMultiple"
+            type="file"
+            [accept]="allowedFormats"
+            class="sr-only"
+            #fileInput
+            (change)="uploadFile($event, false)" />
+        </label>
+        <p class="pl-1">or drag and drop</p>
+      </div>
+      <p class="text-xs text-gray-500">CSV, XLS or XLSX (max. 10MB)</p>
+    </div>
+  </div>
+  <app-error-message
+    *ngIf="hasError"
+    (closeErrorEvt)="onClose()"
+    [errorMessage]="errorMessage"
+    errorType="error"
+    [errorTitle]="errorTitle"></app-error-message>
+  <div class="mt-2 flex flex-col justify-between gap-2">
+    <app-file-card *ngFor="let file of files" [file]="file" (remove)="removeFile($event)"></app-file-card>
+  </div>
+</div>

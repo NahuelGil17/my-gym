@@ -1,0 +1,18 @@
+<form class="w-full bg-white rounded-md ring-1 ring-neutral-400" [formGroup]="notificationForm">
+  <div class="grid grid-flow-row gap-8 px-6 py-8">
+    <app-switch-input
+      formControlName="realTime"
+      title="Real-time Alerts"
+      caption="Get instant notifications for critical events and urgent matters."></app-switch-input>
+    <div class="border-b w-full"></div>
+    <app-switch-input
+      formControlName="systemUpdates"
+      title="System Updates"
+      caption="Stay informed about system maintenance, updates, and new features."></app-switch-input>
+  </div>
+  <div class="w-full inline-flex justify-end items-center space-x-4 border-t p-6">
+    <button appBtn color="secondary" type="button">Cancel</button>
+
+    <button appBtn color="primary" type="submit" [disabled]="notificationForm.invalid">Save settings</button>
+  </div>
+</form>

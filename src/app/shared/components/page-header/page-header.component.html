@@ -1,0 +1,9 @@
+<div class="w-full flex flex-col md:flex-row justify-between items-center">
+  <div class="w-full space-y-2 text-left">
+    <h1 class="text-display-md font-poppins text-neutral-1000">{{ title }}</h1>
+    <p class="text-body-xl text-neutral-700" *ngIf="!!caption">{{ caption }}</p>
+  </div>
+  <div>
+    <ng-content></ng-content>
+  </div>
+</div>

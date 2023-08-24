@@ -1,0 +1,15 @@
+<div class="max-w-sm mx-auto space-y-10">
+  <div class="space-y-4">
+    <h1 class="text-display-sm">Check Email</h1>
+    <p class="text-body-lg text-neutral-400">We sent a password link to {{ email }}</p>
+  </div>
+  <div class="flex flex-col items-center space-y-4">
+    <a class="link-primary w-full" href="mailto:">Open email app</a>
+    <a routerLink="/auth/login" class="w-full btn-secondary px-5 py-2">
+      <div class="w-full space-x-2 flex justify-center items-center">
+        <i class="ph-arrow-left text-body-md"></i>
+        <span>Back to login</span>
+      </div>
+    </a>
+  </div>
+</div>

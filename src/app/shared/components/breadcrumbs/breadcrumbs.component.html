@@ -1,0 +1,15 @@
+<ul class="inline-flex space-x-2">
+  <li *ngFor="let breadcrumb of breadcrumbs; let i = index">
+    <div class="flex items-center space-x-2">
+      <i class="ph-caret-right text-neutral-700" *ngIf="i > 0"></i>
+      <ng-container *ngIf="breadcrumb.url; else elseText">
+        <a [routerLink]="breadcrumb.url" class="text-sm font-bold text-neutral-700 hover:text-primary-400">{{
+          breadcrumb.label
+        }}</a>
+      </ng-container>
+      <ng-template #elseText>
+        <span class="text-sm font-bold text-neutral-700">{{ breadcrumb.label }}</span>
+      </ng-template>
+    </div>
+  </li>
+</ul>

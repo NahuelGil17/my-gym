@@ -1,0 +1,110 @@
+name: Deploy to Amazon ECS
+
+on:
+  push:
+    branches: ['dev', 'qa', 'github_ci']
+env:
+  AWS_REGION: us-east-1                                         
+  ECS_TASK_DEFINITION: frontend.json                                             
+  CONTAINER_NAME: front    
+                                              
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1 
+
+    steps:
+      - name: Set environment for branch
+        id: aws_env
+        run: |
+          if [[ $GITHUB_REF == 'refs/heads/github_ci' ]]; then
+              echo "AWS_ENV=dev" >> $GITHUB_ENV
+          fi
+          if [[ $GITHUB_REF == 'refs/heads/dev' ]]; then
+              echo "AWS_ENV=dev" >> $GITHUB_ENV 
+          fi
+          if [[ $GITHUB_REF == 'refs/heads/qa' ]]; then
+              echo "AWS_ENV=qa" >> $GITHUB_ENV 
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v3
+    
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Prepare .env file
+        uses: nohmad/aws-ssm-parameter-store-action@master
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          path: /${{ env.AWS_ENV }}/simply-${{ env.AWS_ENV }}-frontend/
+          format: dotenv
+          filename: .env
+                   
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@62f4f872db3836360b72999f4b87f1ff13310f3a
+
+      - name: Run test
+        id: test
+        run: | 
+          DOCKER_BUILDKIT=1 docker build --target test .
+
+      - name: Dependency check
+        id: dependency
+        run: | 
+          DOCKER_BUILDKIT=1 docker build --target dependency_check .
+
+      - name: Sonar Task 
+        id: Sonarqube
+        env:
+          DSONAR_LOGIN: ${{ secrets.DSONAR_LOGIN }}
+          DSONAR_HOST: ${{ secrets.DSONAR_HOST }}
+          DSONAR_PROJECT_KEY: ${{ secrets.DSONAR_PROJECT_KEY }}
+        run: |
+          DOCKER_BUILDKIT=1 docker build --build-arg DSONAR_LOGIN=$DSONAR_LOGIN --build-arg DSONAR_HOST=$DSONAR_HOST --build-arg DSONAR_PROJECT_KEY=$DSONAR_PROJECT_KEY --target sonarqube .
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          DOCKER_BUILDKIT=1 docker build -t $ECR_REGISTRY/simply-${{ env.AWS_ENV }}-frontend:$IMAGE_TAG -t $ECR_REGISTRY/simply-${{ env.AWS_ENV }}-frontend:latest --target app .
+          docker push $ECR_REGISTRY/simply-${{ env.AWS_ENV }}-frontend:$IMAGE_TAG
+          docker push $ECR_REGISTRY/simply-${{ env.AWS_ENV }}-frontend:latest
+          echo "image=$ECR_REGISTRY/simply-${{ env.AWS_ENV }}-frontend:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition simply-${{ env.AWS_ENV }}-frontend --query taskDefinition > frontend.json
+          echo frontend.json
+          
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: 720953941590.dkr.ecr.us-east-1.amazonaws.com/simply-${{ env.AWS_ENV }}-frontend:latest
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: simply-${{ env.AWS_ENV }}-frontend
+          cluster: simply-${{ env.AWS_ENV }}-ecs-cluster
+          wait-for-service-stability: true
+      

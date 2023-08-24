@@ -1,0 +1,20 @@
+<div class="flex flex-col space-y-6 w-full">
+  <app-filters-bar
+    ><a class="btn-primary button-link" routerLink="/organizations/create"
+      ><i class="ph-plus text-white text-lg"></i> <span>Create organization</span></a
+    ></app-filters-bar
+  >
+  <app-organization-table
+    [organizations]="organizations"
+    [total]="total | async"
+    [loading]="loading | async"
+    [filteredData]="!!filterValues">
+    <mat-paginator
+      appJumpPages
+      class="border-t rounded-b-md"
+      [length]="total | async"
+      [pageSize]="pageSize"
+      (page)="paginate($event)">
+    </mat-paginator
+  ></app-organization-table>
+</div>

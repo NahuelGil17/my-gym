@@ -1,0 +1,27 @@
+<div
+  [ngClass]="{
+    'border-red-500 bg-red-100': errorType === 'error',
+    'border-yellow-500 bg-yellow-100': errorType === 'warning'
+  }"
+  class="flex justify-between items-start p-4 border-2 rounded-md">
+  <div class="space-x-2 inline-flex justify-start items-start">
+    <i
+      [ngClass]="{
+        'text-error-100 ph-x-circle-fill': errorType === 'error',
+        'text-warning-100 ph-info': errorType === 'warning'
+      }"
+      class="pt-1"></i>
+    <div class="space-y-2">
+      <p class="text-error-300 text-body-xxl">{{ errorTitle }}</p>
+      <ng-container *ngIf="enriched; else elseEnriched">
+        <ng-content></ng-content>
+      </ng-container>
+      <ng-template #elseEnriched>
+        <p class="text-error-300 text-body-sm">{{ errorMessage }}</p>
+      </ng-template>
+    </div>
+  </div>
+  <button type="button" class="!p-0" (click)="closeError()">
+    <i class="ph-x text-xl text-error-100"></i>
+  </button>
+</div>

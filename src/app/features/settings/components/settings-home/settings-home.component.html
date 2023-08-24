@@ -1,0 +1,15 @@
+<div class="flex flex-col space-y-10">
+  <app-page-header title="Settings" caption="Configure and customize your account settings."></app-page-header>
+  <div>
+    <nav mat-tab-nav-bar [disableRipple]="true" [tabPanel]="tabPanel">
+      <ng-container *ngFor="let tab of tabs">
+        <a mat-tab-link [routerLink]="tab.routerLink" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+          {{ tab.label }}
+        </a>
+      </ng-container>
+    </nav>
+    <mat-tab-nav-panel #tabPanel>
+      <router-outlet></router-outlet>
+    </mat-tab-nav-panel>
+  </div>
+</div>
