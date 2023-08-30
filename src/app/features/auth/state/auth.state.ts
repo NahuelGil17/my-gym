@@ -91,19 +91,12 @@ export class AuthState {
   }
 
   @Action(Logout)
-  logout(ctx: StateContext<AuthStateModel>): Observable<any> {
-    return this.authService.logOut().pipe(
-      tap(() => {
-        ctx.setState({
-          auth: null,
-          loading: false,
-          preferences: null
-        });
-        this.utilsService.cleanStorage();
-      }),
-      catchError((err: HttpErrorResponse) => {
-        return throwError(() => err);
-      })
-    );
+  logout(ctx: StateContext<AuthStateModel>): void {
+    ctx.setState({
+      auth: null,
+      loading: false,
+      preferences: null
+    });
+    this.utilsService.cleanStorage();
   }
 }
