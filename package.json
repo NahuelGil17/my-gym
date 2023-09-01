@@ -1,5 +1,5 @@
 {
-  "name": "simply-solv-backoffice-fe",
+  "name": "my-gym-fe",
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
@@ -12,11 +12,11 @@
     "semver": "npm --no-git-tag-version version",
     "build:local": "ng build --configuration local",
     "build:dev": "ng build --configuration dev",
-    "dev:ssr": "ng run simply-solv-backoffice-fe:serve-ssr",
-    "serve:ssr": "node dist/simply-solv-backoffice-fe/server/main.js",
-    "build:ssr:dev": "ng build && ng run simply-solv-backoffice-fe:server",
-    "build:ssr:prod": "npm run build:prod && ng run simply-solv-backoffice-fe:server:prod",
-    "prerender": "ng run simply-solv-backoffice-fe:prerender",
+    "dev:ssr": "ng run my-gym-fe:serve-ssr",
+    "serve:ssr": "node dist/my-gym-fe/server/main.js",
+    "build:ssr:dev": "ng build && ng run my-gym-fe:server",
+    "build:ssr:prod": "npm run build:prod && ng run my-gym-fe:server:prod",
+    "prerender": "ng run my-gym-fe:prerender",
     "compodoc:build": "compodoc -p tsconfig.doc.json",
     "compodoc:build-and-serve": "compodoc -p tsconfig.doc.json -s",
     "compodoc:serve": "compodoc -s"

@@ -1,18 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { OrganizationStatus } from '@core/enums/status.enum';
 import { EColorBadge } from '@shared/enums/badge-color.enums';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-organization-table',
-  templateUrl: './organization-table.component.html',
-  styleUrls: ['./organization-table.component.scss']
+  selector: 'app-user-table',
+  templateUrl: './user-table.component.html'
 })
-export class OrganizationTableComponent {
+export class UserTableComponent {
   displayedColumns: string[] = ['municipality', 'state', 'seats', 'status', 'memberSince', 'actions'];
 
-  organizationStatus: typeof OrganizationStatus = OrganizationStatus;
   badgeColor: typeof EColorBadge = EColorBadge;
 
   data = [
@@ -33,7 +30,7 @@ export class OrganizationTableComponent {
   ];
   pageSize = environment.config.pageSize;
 
-  @Input() organizations!: Observable<any[]>;
+  @Input() users!: Observable<any[]>;
   @Input() total: number | null = 0;
   @Input() loading: boolean | null = false;
   @Input() filteredData = false;
@@ -42,16 +39,16 @@ export class OrganizationTableComponent {
   @Output() readonly deactivate = new EventEmitter<any>();
 
   /**
-   * Emit identifier to edit seats of an organization
-   * @param id Organization identifier
+   * Emit identifier to edit seats of an user
+   * @param id User identifier
    */
   emitEditSeats(id: string): void {
     this.editSeats.emit(id);
   }
 
   /**
-   * Emit identifier to deactivate organization
-   * @param id Organization identifier
+   * Emit identifier to deactivate user
+   * @param id User identifier
    */
   emitDeactivate(id: string): void {
     this.deactivate.emit(id);

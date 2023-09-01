@@ -129,7 +129,8 @@ import { PluralizePipe } from './pipes/pluralize.pipe';
     BreadcrumbsComponent,
     CdkTableModule,
     LoaderComponent,
-    FiltersBarComponent
+    FiltersBarComponent,
+    BadgeComponent
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntlService },

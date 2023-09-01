@@ -4,15 +4,15 @@ import { MatRadioModule } from '@angular/material/radio';
 import { BtnDirective } from '@shared/directives/btn/btn.directive';
 import { InputDirective } from '@shared/directives/input/input.directive';
 import { RenderResult, render } from '@testing-library/angular';
-import { OrganizationFormComponent } from './organization-form.component';
+import { UserFormComponent } from './user-form.component';
 
-describe('OrganizationFormComponent', () => {
-  let component: OrganizationFormComponent;
-  let fixture: ComponentFixture<OrganizationFormComponent>;
-  let renderResult: RenderResult<OrganizationFormComponent>;
+describe('UserFormComponent', () => {
+  let component: UserFormComponent;
+  let fixture: ComponentFixture<UserFormComponent>;
+  let renderResult: RenderResult<UserFormComponent>;
 
   beforeEach(async () => {
-    renderResult = await render(OrganizationFormComponent, {
+    renderResult = await render(UserFormComponent, {
       declarations: [InputDirective, BtnDirective],
       imports: [ReactiveFormsModule, FormsModule, MatRadioModule]
     });
