@@ -4,12 +4,11 @@ import { of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-organization-home',
-  templateUrl: './organization-home.component.html',
-  styleUrls: ['./organization-home.component.css']
+  selector: 'app-user-home',
+  templateUrl: './user-home.component.html'
 })
-export class OrganizationHomeComponent {
-  organizations = of([
+export class UserHomeComponent {
+  users = of([
     {
       municipality: 'Troutman',
       state: 'Alabama',

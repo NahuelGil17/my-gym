@@ -5,8 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-filters-bar',
-  templateUrl: './filters-bar.component.html',
-  styleUrls: ['./filters-bar.component.scss']
+  template: ``
 })
 export class FiltersBarComponent implements OnInit, OnDestroy {
   filterForm!: FormGroup;

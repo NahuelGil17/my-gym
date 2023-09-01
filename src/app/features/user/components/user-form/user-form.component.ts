@@ -2,12 +2,12 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-organization-form',
-  templateUrl: './organization-form.component.html',
-  styleUrls: ['./organization-form.component.scss']
+  selector: 'app-user-form',
+  templateUrl: './user-form.component.html',
+  styleUrls: ['./user-form.component.scss']
 })
-export class OrganizationFormComponent {
-  organizationForm!: FormGroup;
+export class UserFormComponent {
+  userForm!: FormGroup;
 
   /**
    * Seats quantities predefined
@@ -17,7 +17,7 @@ export class OrganizationFormComponent {
   @Output() readonly formValues = new EventEmitter<any>();
 
   constructor(private fb: FormBuilder) {
-    this.organizationForm = this.fb.group({
+    this.userForm = this.fb.group({
       municipality: [null, [Validators.required]],
       state: [null, [Validators.required]],
       seats: [null, [Validators.required]]
@@ -25,8 +25,8 @@ export class OrganizationFormComponent {
   }
 
   emitFormValues(): void {
-    if (this.organizationForm.valid) {
-      this.formValues.emit(this.organizationForm.value);
+    if (this.userForm.valid) {
+      this.formValues.emit(this.userForm.value);
     }
   }
 
@@ -34,6 +34,6 @@ export class OrganizationFormComponent {
    * Reset form values.
    */
   cancel(): void {
-    this.organizationForm.reset();
+    this.userForm.reset();
   }
 }

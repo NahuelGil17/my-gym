@@ -1,5 +1,5 @@
 import { render } from '@testing-library/angular';
-import { OrganizationLayoutComponent } from './organization-layout.component';
+import { OrganizationLayoutComponent } from './user-layout.component';
 import { RouterModule } from '@angular/router';
 import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
 

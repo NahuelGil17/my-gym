@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "simply-solv-backoffice-fe": {
+    "my-gym-fe": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": "dist/simply-solv-backoffice-fe/browser",
+            "outputPath": "dist/my-gym-fe/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -60,10 +60,10 @@
           "builder": "@angular-builders/custom-webpack:dev-server",
           "configurations": {
             "prod": {
-              "browserTarget": "simply-solv-backoffice-fe:build:prod"
+              "browserTarget": "my-gym-fe:build:prod"
             },
             "dev": {
-              "browserTarget": "simply-solv-backoffice-fe:build:dev"
+              "browserTarget": "my-gym-fe:build:dev"
             }
           },
           "defaultConfiguration": "dev"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "simply-solv-backoffice-fe:build"
+            "browserTarget": "my-gym-fe:build"
           }
         },
         "test": {
@@ -94,7 +94,7 @@
         "server": {
           "builder": "@angular-builders/custom-webpack:server",
           "options": {
-            "outputPath": "dist/simply-solv-backoffice-fe/server",
+            "outputPath": "dist/my-gym-fe/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
             "customWebpackConfig": {
@@ -119,12 +119,12 @@
           "builder": "@nguniversal/builders:ssr-dev-server",
           "configurations": {
             "dev": {
-              "browserTarget": "simply-solv-backoffice-fe:build:dev",
-              "serverTarget": "simply-solv-backoffice-fe:server:dev"
+              "browserTarget": "my-gym-fe:build:dev",
+              "serverTarget": "my-gym-fe:server:dev"
             },
             "prod": {
-              "browserTarget": "simply-solv-backoffice-fe:build:prod",
-              "serverTarget": "simply-solv-backoffice-fe:server:prod"
+              "browserTarget": "my-gym-fe:build:prod",
+              "serverTarget": "my-gym-fe:server:prod"
             }
           },
           "defaultConfiguration": "dev"
@@ -136,12 +136,12 @@
           },
           "configurations": {
             "prod": {
-              "browserTarget": "simply-solv-backoffice-fe:build:prod",
-              "serverTarget": "simply-solv-backoffice-fe:server:prod"
+              "browserTarget": "my-gym-fe:build:prod",
+              "serverTarget": "my-gym-fe:server:prod"
             },
             "dev": {
-              "browserTarget": "simply-solv-backoffice-fe:build:dev",
-              "serverTarget": "simply-solv-backoffice-fe:server:dev"
+              "browserTarget": "my-gym-fe:build:dev",
+              "serverTarget": "my-gym-fe:server:dev"
             }
           },
           "defaultConfiguration": "prod"
