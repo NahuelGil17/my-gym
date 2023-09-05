@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+
 export interface User {
   id: string;
   name: string;
@@ -10,4 +12,10 @@ export interface Routine {
   endTime: string; //Review this type
   exercises: string;
   day: string;
+}
+
+export interface UsersStateModel {
+  users: User[];
+  loading: boolean;
+  error: HttpErrorResponse | null;
 }

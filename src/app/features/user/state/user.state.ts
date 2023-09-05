@@ -1,17 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../interfaces/user.interface';
+import { User, UsersStateModel } from '../interfaces/user.interface';
 import { UserService } from '../services/user.service';
 import { catchError, tap } from 'rxjs/operators';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { DeleteUser, GetUser, GetUsers, UpdateUser } from './user.actions';
+import { GetUser, GetUsers, UpdateUser } from './user.actions';
 import { throwError } from 'rxjs';
-
-export interface UsersStateModel {
-  users: User[];
-  loading: boolean;
-  error: HttpErrorResponse | null;
-}
 
 @State<UsersStateModel>({
   name: 'users',
