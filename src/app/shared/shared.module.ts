@@ -43,6 +43,7 @@ import { ConcatStringPipe } from './pipes/concat-string.pipe';
 import { ConditionalTextPipe } from './pipes/conditional-text.pipe';
 import { NoDataPipe } from './pipes/no-data.pipe';
 import { PluralizePipe } from './pipes/pluralize.pipe';
+import { CardComponent } from './components/card/card.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { PluralizePipe } from './pipes/pluralize.pipe';
     FileCardComponent,
     BreadcrumbsComponent,
     LoaderComponent,
-    FiltersBarComponent
+    FiltersBarComponent,
+    CardComponent
   ],
   imports: [
     CommonModule,
@@ -130,7 +132,8 @@ import { PluralizePipe } from './pipes/pluralize.pipe';
     CdkTableModule,
     LoaderComponent,
     FiltersBarComponent,
-    BadgeComponent
+    BadgeComponent,
+    CardComponent
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntlService },
@@ -140,4 +143,4 @@ import { PluralizePipe } from './pipes/pluralize.pipe';
     }
   ]
 })
-export class SharedModule {}
+export class SharedModule { }

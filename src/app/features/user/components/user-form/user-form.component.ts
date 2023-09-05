@@ -14,20 +14,17 @@ export class UserFormComponent {
    */
   seatsQtys = Array.from({ length: 7 }, (_, idx) => (idx ? 5 * idx : 1));
 
-  @Output() readonly formValues = new EventEmitter<any>();
+  @Output() readonly formValues = new EventEmitter<{ name: string, lastName: string }>();
 
   constructor(private fb: FormBuilder) {
     this.userForm = this.fb.group({
-      municipality: [null, [Validators.required]],
-      state: [null, [Validators.required]],
-      seats: [null, [Validators.required]]
+      name: [null, [Validators.required]],
+      lastName: [null, [Validators.required]]
     });
   }
 
   emitFormValues(): void {
-    if (this.userForm.valid) {
-      this.formValues.emit(this.userForm.value);
-    }
+    this.formValues.emit(this.userForm.value);
   }
 
   /**
