@@ -1,0 +1,42 @@
+<div
+  class="w-full overflow-hidden ring-1 ring-neutral-400 shadow-100 rounded-sm"
+  [ngClass]="{ 'ring-1 ring-neutral-400': headerCssClass !== 'header-primary' }">
+  <table class="w-full" cdk-table aria-describedby="table" [dataSource]="data">
+    <ng-container *ngFor="let column of displayedColumns" [cdkColumnDef]="column">
+      <th cdk-header-cell *cdkHeaderCellDef [ngClass]="headerCssClass">
+        {{ column | camelToTitle }}
+      </th>
+      <td cdk-cell *cdkCellDef="let element">
+        <ng-container *ngIf="column !== 'activo'; else badge">
+          {{ element[column] }}
+        </ng-container>
+        <ng-template #badge>
+          <app-badge
+            [colorBadge]="element[column] ? EColorBadge.SUCCESS : EColorBadge.ERROR"
+            [textBadge]="element[column] ? 'Activo' : 'Inactivo'"></app-badge>
+        </ng-template>
+      </td>
+    </ng-container>
+
+    <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+    <tr cdk-row *cdkRowDef="let row; columns: displayedColumns"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell h-[30vh]" [attr.colspan]="displayedColumns.length">
+        <ng-container *ngIf="loading">
+          <app-loader [text]="'Loading data...'"></app-loader>
+        </ng-container>
+        <ng-container *ngIf="!loading && total === 0 && filteredData">
+          <div class="flex flex-col text-center justify-center items-center space-y-4">
+            <span>No results found. Please try again</span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!loading && total === 0 && !filteredData">
+          <div class="flex flex-col text-center justify-center items-center space-y-4">
+            <span>No data to show</span>
+          </div>
+        </ng-container>
+      </td>
+    </tr>
+  </table>
+  <ng-content></ng-content>
+</div>
