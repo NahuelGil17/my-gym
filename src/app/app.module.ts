@@ -18,6 +18,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
 import { UsersState } from '@features/user/state/user.state';
+import { User } from './features/user/interfaces/user.interface';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,6 +38,14 @@ import { UsersState } from '@features/user/state/user.state';
       key: [
         {
           key: AuthState,
+          engine: SESSION_STORAGE_ENGINE
+        }
+      ]
+    }),
+    NgxsStoragePluginModule.forRoot({
+      key: [
+        {
+          key: UsersState,
           engine: SESSION_STORAGE_ENGINE
         }
       ]

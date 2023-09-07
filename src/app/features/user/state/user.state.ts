@@ -11,6 +11,7 @@ import { throwError } from 'rxjs';
   name: 'users',
   defaults: {
     users: [],
+    total: 0,
     loading: false,
     error: null
   }
@@ -26,6 +27,10 @@ export class UsersState {
     return state.users;
   }
 
+  @Selector()
+  static getTotal(state: UsersStateModel): number {
+    return state.total;
+  }
   @Selector()
   static getUserById(state: UsersStateModel) {
     return (id: string): User | undefined => {

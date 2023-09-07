@@ -16,6 +16,7 @@ export interface Routine {
 
 export interface UsersStateModel {
   users: User[];
+  total: number;
   loading: boolean;
   error: HttpErrorResponse | null;
 }

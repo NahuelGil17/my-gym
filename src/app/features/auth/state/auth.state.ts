@@ -34,11 +34,6 @@ export class AuthState {
     return !!state.auth?.jwt;
   }
 
-  // @Selector()
-  // static permissions(state: AuthStateModel): string[] | undefined {
-  //   return state.auth?.permissions;
-  // }
-
   @Selector()
   static userId(state: AuthStateModel): string | undefined {
     return state.preferences?.id;
@@ -63,7 +58,6 @@ export class AuthState {
       tap((auth: AuthResponse) => {
         ctx.patchState({ auth });
       }),
-      // exhaustMap(() => ctx.dispatch(new GetUserPreferences())),
       tap(() => {
         ctx.patchState({ loading: false });
       }),
