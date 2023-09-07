@@ -1,5 +1,7 @@
 <div class="user-card">
-  <h2>{{ data.nombre }}</h2>
+  <div class="header">
+    <h2>{{ data.nombre }}</h2>
+  </div>
   <ul>
     <li *ngFor="let routine of data.routines">{{ routine }}</li>
   </ul>
