@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Routine } from '../../interfaces/user';
 
 @Component({
   selector: 'app-user-create-rutine-form',
@@ -8,37 +9,21 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UserCreateRutineFormComponent {
   userRoutineForm!: FormGroup;
-  routines: { day: string, startTime: string, endTime: string, exercises: string[] }[] = [];
+  routines: Routine[] = [];
 
-  /**
-   * Seats quantities predefined
-   */
-  seatsQtys = Array.from({ length: 7 }, (_, idx) => (idx ? 5 * idx : 1));
-
-  @Output() readonly formValues = new EventEmitter<{ day: string, endTime: string, startTime: string, exercises: string[] }>();
+  @Output() readonly formValues = new EventEmitter<FormGroup>();
 
   constructor(private fb: FormBuilder) {
     this.userRoutineForm = this.fb.group({
       day: [null, [Validators.required]],
       endTime: [null, [Validators.required]],
       startTime: [null, [Validators.required]],
-      exercises: [null, [Validators.required]],
+      exercises: [null, [Validators.required]]
     });
   }
 
-
-  emitFormValues(): void {
-    this.formValues.emit(this.userRoutineForm.value);
-  }
-
   createRoutine() {
-    const formData = this.userRoutineForm.value;
-
-    console.log(formData);
-
-    this.formValues.emit(formData);
-    this.routines.push(formData);
-    this.userRoutineForm.reset();
+    this.formValues.emit(this.userRoutineForm);
   }
 
   /**

@@ -1,5 +1,7 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, ViewChild } from '@angular/core';
 import { Breadcrumb } from '@core/interfaces/breadcrumb.interface';
+import { UserFormComponent } from '../user-form/user-form.component';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-create',
@@ -7,23 +9,20 @@ import { Breadcrumb } from '@core/interfaces/breadcrumb.interface';
   styleUrls: ['./user-create.component.scss']
 })
 export class UserCreateComponent {
+  @ViewChild(UserFormComponent) userFormComponent!: UserFormComponent;
 
-  public routines: { day: string, startTime: string, endTime: string, exercises: string[] }[] = [];
+  public userForm: FormGroup;
 
-  constructor() {
-    this.userFormData = {
-      name: '',
-      lastName: ''
-    };
-    this.routineFormdata = {
-      day: '',
-      startTime: '',
-      endTime: '',
-      exercises: []
-    }
+  constructor(private fb: FormBuilder) {
+    this.userForm = this.fb.group({
+      user: this.fb.group({
+        name: [null, Validators.required],
+        lastName: [null, [Validators.required]]
+        // otros campos
+      }),
+      rutinas: this.fb.array([])
+    });
   }
-  public userFormData: { name: string, lastName: string };
-  public routineFormdata: { day: string, startTime: string, endTime: string, exercises: string[] }
   breadcrumbs: Breadcrumb[] = [
     {
       label: 'Usuarios',
@@ -34,20 +33,18 @@ export class UserCreateComponent {
     }
   ];
 
-  public receiveUserFormValues(event: { name: string, lastName: string }): void {
-    this.userFormData = event;
+  get routines(): FormArray {
+    return this.userForm.get('rutinas') as FormArray;
   }
-
-  public receiveRoutineFormValues(event: { day: string, startTime: string, endTime: string, exercises: string[] }): void {
-    this.routineFormdata = event;
+  public receiveRoutineFormValues(event: FormGroup): void {
+    this.routines.push(event);
   }
 
   sendDataToApi() {
-    console.log(this.userFormData);
-    console.log(this.routineFormdata);
+    this.userFormComponent.emitFormValues();
   }
 
-  receiveRoutine(routine: { day: string, startTime: string, endTime: string, exercises: string[] }) {
+  receiveRoutine(routine: { day: string; startTime: string; endTime: string; exercises: string[] }) {
     this.routines.push(routine);
   }
 }

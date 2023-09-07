@@ -1,14 +1,15 @@
-<form [formGroup]="userRoutineForm" (ngSubmit)="emitFormValues()"
-    class="w-full bg-white rounded-md ring-1 ring-neutral-400">
-    <h2 class="text-2xl pt-2 pl-6">Rutina</h2>
-    <div class="space-y-6 p-6">
-        <input appInput type="text" label="Dia" formControlName="day" />
-        <input appInput type="time" label="Inicio" formControlName="endTime" />
-        <input appInput type="time" label="Cierre" formControlName="startTime" />
-        <textarea appInput type="text" label="Rutina" formControlName="exercises"></textarea>
-    </div>
-    <div class="flex justify-end mr-6 mb-4 pb-4">
-        <button appBtn color="primary" type="submit" [disabled]="userRoutineForm.invalid"
-            (click)="createRoutine()">Crear rutina</button>
-    </div>
+<form
+  [formGroup]="userRoutineForm"
+  (ngSubmit)="createRoutine()"
+  class="w-full bg-white rounded-md ring-1 ring-neutral-400">
+  <h2 class="text-2xl pt-2 pl-6">Rutina</h2>
+  <div class="space-y-6 p-6">
+    <input appInput type="text" label="Dia" formControlName="day" />
+    <input appInput type="time" label="Inicio" formControlName="endTime" />
+    <input appInput type="time" label="Cierre" formControlName="startTime" />
+    <textarea appInput type="text" label="Rutina" formControlName="exercises"></textarea>
+  </div>
+  <div class="flex justify-end mr-6 mb-4 pb-4">
+    <button appBtn color="primary" type="submit" [disabled]="userRoutineForm.invalid">Crear rutina</button>
+  </div>
 </form>

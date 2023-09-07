@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-user-form',
@@ -9,12 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class UserFormComponent {
   userForm!: FormGroup;
 
-  /**
-   * Seats quantities predefined
-   */
-  seatsQtys = Array.from({ length: 7 }, (_, idx) => (idx ? 5 * idx : 1));
-
-  @Output() readonly formValues = new EventEmitter<{ name: string, lastName: string }>();
+  @Output() readonly userFormValues = new EventEmitter<User>();
 
   constructor(private fb: FormBuilder) {
     this.userForm = this.fb.group({
@@ -24,7 +20,9 @@ export class UserFormComponent {
   }
 
   emitFormValues(): void {
-    this.formValues.emit(this.userForm.value);
+    const formData = this.userForm.value;
+    this.userFormValues.emit(formData);
+    this.userForm.reset();
   }
 
   /**
