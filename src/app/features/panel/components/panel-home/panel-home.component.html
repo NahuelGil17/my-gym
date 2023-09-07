@@ -1,0 +1,10 @@
+<div class="panel-home-container">
+  <h1>PANEL</h1>
+  <div class="panel-home-row">
+    <user-card *ngFor="let item of items.slice(0, halfCount)" [data]="item"></user-card>
+  </div>
+  <clock></clock>
+  <div class="panel-home-row">
+    <user-card *ngFor="let item of items.slice(halfCount)" [data]="item"></user-card>
+  </div>
+</div>
