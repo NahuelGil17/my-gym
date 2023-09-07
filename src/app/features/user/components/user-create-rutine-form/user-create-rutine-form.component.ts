@@ -22,7 +22,7 @@ export class UserCreateRutineFormComponent {
     });
   }
 
-  createRoutine() {
+  createRoutine(): void {
     this.formValues.emit(this.userRoutineForm);
   }
 

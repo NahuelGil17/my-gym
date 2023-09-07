@@ -1,4 +1,4 @@
-import { Component, NgModule, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Breadcrumb } from '@core/interfaces/breadcrumb.interface';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -40,11 +40,11 @@ export class UserCreateComponent {
     this.routines.push(event);
   }
 
-  sendDataToApi() {
+  sendDataToApi(): void {
     this.userFormComponent.emitFormValues();
   }
 
-  receiveRoutine(routine: { day: string; startTime: string; endTime: string; exercises: string[] }) {
+  receiveRoutine(routine: { day: string; startTime: string; endTime: string; exercises: string[] }): void {
     this.routines.push(routine);
   }
 }

@@ -143,4 +143,4 @@ import { CardComponent } from './components/card/card.component';
     }
   ]
 })
-export class SharedModule { }
+export class SharedModule {}

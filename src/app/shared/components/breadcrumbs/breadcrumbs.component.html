@@ -5,7 +5,7 @@
       <ng-container *ngIf="breadcrumb.url; else elseText">
         <a [routerLink]="breadcrumb.url" class="text-sm font-bold text-neutral-700 hover:text-primary-400">{{
           breadcrumb.label
-          }}</a>
+        }}</a>
       </ng-container>
       <ng-template #elseText>
         <span class="text-sm font-bold text-neutral-700">{{ breadcrumb.label }}</span>

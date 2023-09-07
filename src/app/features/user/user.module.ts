@@ -10,7 +10,14 @@ import { UserTableComponent } from './components/user-table/user-table.component
 import { UserCreateRutineFormComponent } from './components/user-create-rutine-form/user-create-rutine-form.component';
 
 @NgModule({
-  declarations: [UserCreateComponent, UserFormComponent, UserLayoutComponent, UserHomeComponent, UserTableComponent, UserCreateRutineFormComponent],
+  declarations: [
+    UserCreateComponent,
+    UserFormComponent,
+    UserLayoutComponent,
+    UserHomeComponent,
+    UserTableComponent,
+    UserCreateRutineFormComponent
+  ],
   imports: [CommonModule, SharedModule, DashboardRoutingModule, SharedModule]
 })
 export class UserModule {}

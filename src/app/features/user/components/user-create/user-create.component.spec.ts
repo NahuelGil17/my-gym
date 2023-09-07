@@ -11,7 +11,14 @@ import { CardComponent } from '@shared/components/card/card.component';
 describe('OrganizationCreateComponent', () => {
   it('should render OrganizationCreateComponent', async () => {
     const { container } = await render(UserCreateComponent, {
-      declarations: [BreadcrumbsComponent, UserCreateComponent, InputDirective, UserFormComponent, UserCreateRutineFormComponent, CardComponent],
+      declarations: [
+        BreadcrumbsComponent,
+        UserCreateComponent,
+        InputDirective,
+        UserFormComponent,
+        UserCreateRutineFormComponent,
+        CardComponent
+      ],
       imports: [ReactiveFormsModule, FormsModule, MatRadioModule]
     });
 
