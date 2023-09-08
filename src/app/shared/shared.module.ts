@@ -44,6 +44,8 @@ import { ConditionalTextPipe } from './pipes/conditional-text.pipe';
 import { NoDataPipe } from './pipes/no-data.pipe';
 import { PluralizePipe } from './pipes/pluralize.pipe';
 import { CardComponent } from './components/card/card.component';
+import { TableComponent } from './components/table/table.component';
+import { CamelToTitlePipe } from './pipes/camel-to-title.pipe';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import { CardComponent } from './components/card/card.component';
     BreadcrumbsComponent,
     LoaderComponent,
     FiltersBarComponent,
-    CardComponent
+    CardComponent,
+    TableComponent,
+    CamelToTitlePipe
   ],
   imports: [
     CommonModule,
@@ -133,7 +137,9 @@ import { CardComponent } from './components/card/card.component';
     LoaderComponent,
     FiltersBarComponent,
     BadgeComponent,
-    CardComponent
+    CardComponent,
+    TableComponent,
+    CamelToTitlePipe
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntlService },
