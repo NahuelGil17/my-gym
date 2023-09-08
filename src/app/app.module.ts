@@ -8,7 +8,6 @@ import { AuthorizeInterceptor } from '@core/interceptors/authorize.interceptor';
 import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
 import { TokenInterceptor } from '@core/interceptors/token.interceptor';
 import { AuthState } from '@features/auth/state/auth.state';
-import { UsersState as UserState } from '@features/user/state/user.state';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsStoragePluginModule, SESSION_STORAGE_ENGINE } from '@ngxs/storage-plugin';
@@ -35,7 +34,7 @@ import { User } from './features/user/interfaces/user.interface';
     NgxsModule.forRoot([AuthState], {
       developmentMode: !environment.production
     }),
-    NgxsModule.forRoot([UserState], {}),
+    // NgxsModule.forRoot([UserState], {}),
     NgxsStoragePluginModule.forRoot({
       key: [
         {
@@ -44,14 +43,14 @@ import { User } from './features/user/interfaces/user.interface';
         }
       ]
     }),
-    NgxsStoragePluginModule.forRoot({
-      key: [
-        {
-          key: UsersState,
-          engine: SESSION_STORAGE_ENGINE
-        }
-      ]
-    }),
+    // NgxsStoragePluginModule.forRoot({
+    //   key: [
+    //     {
+    //       key: UsersState,
+    //       engine: SESSION_STORAGE_ENGINE
+    //     }
+    //   ]
+    // }),
     NgxsLoggerPluginModule.forRoot({ disabled: environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot({ disabled: environment.production })
   ],
