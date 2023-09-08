@@ -1,59 +1,77 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User, UsersStateModel } from '../interfaces/user.interface';
+import { User, UserApiResponse } from '../interfaces/user.interface';
 import { UserService } from '../services/user.service';
 import { catchError, tap } from 'rxjs/operators';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { GetUser, GetUsers, UpdateUser } from './user.actions';
-import { throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { UserStateModel } from './user.model';
 
-@State<UsersStateModel>({
+@State<UserStateModel>({
   name: 'users',
   defaults: {
     users: [],
     total: 0,
     loading: false,
-    error: null
+    error: null,
+    currentPage: 0,
+    pageSize: 0,
+    pageCount: 0
   }
 })
 @Injectable({
   providedIn: 'root'
 })
-export class UsersState {
-  constructor(private userService: UserService) {}
-
+export class UserState {
   @Selector()
-  static getUsers(state: UsersStateModel): User[] {
+  static getUsers(state: UserStateModel): User[] | undefined | null {
     return state.users;
   }
 
   @Selector()
-  static getTotal(state: UsersStateModel): number {
+  static getTotal(state: UserStateModel): number | undefined | null {
     return state.total;
   }
+
   @Selector()
-  static getUserById(state: UsersStateModel) {
+  static getUserById(state: UserStateModel): (id: string) => User | undefined {
     return (id: string): User | undefined => {
-      return state.users.find((user) => user.id === id);
+      return state.users?.find((user) => user.id === id);
     };
   }
 
   @Selector()
-  static isLoading(state: UsersStateModel): boolean {
+  static isLoading(state: UserStateModel): boolean | undefined | null {
     return state.loading;
   }
 
   @Selector()
-  static getError(state: UsersStateModel): HttpErrorResponse | null {
+  static getError(state: UserStateModel): HttpErrorResponse | null | undefined {
     return state.error;
   }
 
-  @Action(GetUsers)
-  getUsers(ctx: StateContext<UsersStateModel>): void {
+  constructor(private userService: UserService) {}
+
+  @Action(GetUsers, { cancelUncompleted: true })
+  getUsers(ctx: StateContext<UserStateModel>, action: GetUsers): Observable<UserApiResponse[]> {
     ctx.patchState({ loading: true, error: null });
-    this.userService.getUsers().pipe(
-      tap((users: User[]) => {
-        ctx.patchState({ users, loading: false });
+    const { page, pageSize } = action.payload;
+
+    return this.userService.getUsers(page, pageSize).pipe(
+      tap((response: any) => {
+        const users = response.data.map((user: any) => user.attributes); // Extraemos la información del usuario
+        const total = response.meta.pagination.total;
+        const pageCount = Math.ceil(total / pageSize);
+
+        ctx.patchState({
+          users,
+          total,
+          loading: false,
+          currentPage: page,
+          pageSize,
+          pageCount
+        });
       }),
       catchError((error) => {
         ctx.patchState({ error, loading: false });
@@ -62,10 +80,10 @@ export class UsersState {
     );
   }
 
-  @Action(GetUser)
-  getUser(ctx: StateContext<UsersStateModel>, { id }: GetUser): void {
+  @Action(GetUser, { cancelUncompleted: true })
+  getUser(ctx: StateContext<UserStateModel>, { id }: GetUser): Observable<User> {
     ctx.patchState({ loading: true, error: null });
-    this.userService.getUser(id).pipe(
+    return this.userService.getUser(id).pipe(
       tap((user: User) => {
         ctx.patchState({ users: [user], loading: false });
       }),
@@ -75,12 +93,12 @@ export class UsersState {
       })
     );
   }
-  @Action(UpdateUser)
-  updateUser(ctx: StateContext<UsersStateModel>, { user }: UpdateUser): void {
+  @Action(UpdateUser, { cancelUncompleted: true })
+  updateUser(ctx: StateContext<UserStateModel>, { user }: UpdateUser): Observable<User> {
     ctx.patchState({ loading: true, error: null });
-    this.userService.updateUser(user).pipe(
+    return this.userService.updateUser(user).pipe(
       tap((updatedUser: User) => {
-        const users = ctx.getState().users.map((u) => (u.id === updatedUser.id ? updatedUser : u));
+        const users = ctx.getState().users?.map((u) => (u.id === updatedUser.id ? updatedUser : u));
         ctx.patchState({ users, loading: false });
       }),
       catchError((error) => {
@@ -91,7 +109,7 @@ export class UsersState {
   }
 
   // @Action(DeleteUser)
-  // deleteUser(ctx: StateContext<UsersStateModel>, { id }: DeleteUser): void {
+  // deleteUser(ctx: StateContext<UserStateModel>, { id }: DeleteUser): void {
   //   ctx.patchState({ loading: true, error: null });
   //   this.userService.deleteUser(id).pipe(
   //     tap(() => {

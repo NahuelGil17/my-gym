@@ -31,7 +31,7 @@ export const environment = {
     /**
      * The number of items to display per page.
      */
-    pageSize: 10,
+    pageSize: 1,
     /**
      * The size of the grid for the application.
      */

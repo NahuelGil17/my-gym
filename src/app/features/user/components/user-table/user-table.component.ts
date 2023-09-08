@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './user-table.component.html'
 })
 export class UserTableComponent {
-  displayedColumns: string[] = ['nombre', 'apellido', 'activo', 'acciones'];
+  displayedColumns: string[] = ['name', 'lastName', 'isActive', 'acciones'];
 
   badgeColor: typeof EColorBadge = EColorBadge;
 

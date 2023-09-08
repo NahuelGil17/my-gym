@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../interfaces/user.interface';
+import { User, UserApiResponse } from '../interfaces/user.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -10,8 +10,12 @@ import { environment } from 'src/environments/environment';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.api}/clients`);
+  getUsers(page: number, pageSize: number): Observable<UserApiResponse[]> {
+    const params = new HttpParams()
+      .set('pagination[page]', page.toString())
+      .set('pagination[pageSize]', pageSize.toString());
+
+    return this.http.get<UserApiResponse[]>(`${environment.api}/clients`, { params });
   }
 
   getUser(id: number): Observable<User> {
