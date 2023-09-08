@@ -7,6 +7,12 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { GetUser, GetUsers, UpdateUser } from './user.actions';
 import { throwError } from 'rxjs';
 
+export interface UsersStateModel {
+  users: User[];
+  loading: boolean;
+  error: HttpErrorResponse | null;
+}
+
 @State<UsersStateModel>({
   name: 'users',
   defaults: {
