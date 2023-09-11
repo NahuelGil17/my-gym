@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { UserState } from '@features/user/state/user.state';
+import { Select } from '@ngxs/store';
 import { EColorBadge } from '@shared/enums/badge-color.enums';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -44,7 +46,7 @@ export class UserTableComponent {
 
   @Input() users!: Observable<any[]>;
   @Input() total: number | null = 0;
-  @Input() loading: boolean | null = false;
+  @Select(UserState.isLoading) loading!: Observable<boolean>;
   @Input() filteredData = false;
 
   @Output() readonly editSeats = new EventEmitter<any>();

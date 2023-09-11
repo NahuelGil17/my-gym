@@ -35,13 +35,23 @@ export class UserHomeComponent implements OnInit, OnDestroy {
   }
 
   paginate(pageEvent: PageEvent): void {
-    const currentPage = pageEvent.pageIndex + 1; // Ajuste porque pageIndex es base 0
+    const currentPage = pageEvent.pageIndex + 1;
     const currentPageSize = pageEvent.pageSize;
     const payload = {
       page: currentPage,
       pageSize: currentPageSize
     };
     this.store.dispatch(new GetUsers(payload));
+  }
+
+  onSearch(searchQuery: { searchQ: string }): void {
+    this.filterValues = {
+      page: 1,
+      pageSize: this.pageSize,
+      searchQ: searchQuery.searchQ
+    };
+
+    this.store.dispatch(new GetUsers({ ...this.filterValues }));
   }
 
   ngOnDestroy(): void {

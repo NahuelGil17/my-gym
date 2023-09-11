@@ -23,7 +23,7 @@
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell h-[30vh]" [attr.colspan]="displayedColumns.length">
         <ng-container *ngIf="loading">
-          <app-loader [text]="'Loading data...'"></app-loader>
+          <app-loader [text]="'Cargando...'"></app-loader>
         </ng-container>
         <ng-container *ngIf="!loading && total === 0 && filteredData">
           <div class="flex flex-col text-center justify-center items-center space-y-4">

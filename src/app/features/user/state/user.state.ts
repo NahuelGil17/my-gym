@@ -56,9 +56,16 @@ export class UserState {
   @Action(GetUsers, { cancelUncompleted: true })
   getUsers(ctx: StateContext<UserStateModel>, action: GetUsers): Observable<UserApiResponse[]> {
     ctx.patchState({ loading: true, error: null });
-    const { page, pageSize } = action.payload;
+    const { page, pageSize, searchQ } = action.payload;
 
-    return this.userService.getUsers(page, pageSize).pipe(
+    let getUsersObservable: Observable<UserApiResponse[]>;
+    if (searchQ === null || searchQ === undefined) {
+      getUsersObservable = this.userService.getUsers(page, pageSize);
+    } else {
+      getUsersObservable = this.userService.getUsers(page, pageSize, searchQ);
+    }
+
+    return getUsersObservable.pipe(
       tap((response: any) => {
         const users = response.data.map((user: any) => user.attributes); // Extraemos la información del usuario
         const total = response.meta.pagination.total;
