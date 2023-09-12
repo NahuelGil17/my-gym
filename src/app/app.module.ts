@@ -18,6 +18,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
+import { UsersState } from '@features/user/state/user.state';
+import { User } from './features/user/interfaces/user.interface';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +29,9 @@ import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
     BrowserAnimationsModule,
     CoreModule,
     HttpClientModule,
+    NgxsModule.forRoot([UsersState], {
+      developmentMode: !environment.production
+    }),
     NgxsModule.forRoot([AuthState], {
       developmentMode: !environment.production
     }),
@@ -35,6 +40,14 @@ import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
       key: [
         {
           key: AuthState,
+          engine: SESSION_STORAGE_ENGINE
+        }
+      ]
+    }),
+    NgxsStoragePluginModule.forRoot({
+      key: [
+        {
+          key: UsersState,
           engine: SESSION_STORAGE_ENGINE
         }
       ]
