@@ -21,14 +21,16 @@ const routes: Routes = [
         path: 'settings',
         loadChildren: () => import('./features/settings/settings.module').then((m) => m.SettingsModule),
         title: 'Settings'
-      },
-      {
-        path: 'panel',
-        loadChildren: () => import('./features/panel/panel.module').then((m) => m.PanelModule),
-        title: 'Settings'
       }
     ]
   },
+
+  {
+    path: 'panel',
+    loadChildren: () => import('./features/panel/panel.module').then((m) => m.PanelModule),
+    title: 'Settings'
+  },
+
   {
     path: 'auth',
     title: 'Authentication',

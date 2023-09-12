@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'panel',
+  selector: 'app-panel',
   templateUrl: './panel-home.component.html',
   styleUrls: ['./panel-home.component.scss']
 })

@@ -17,6 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
+import { PanelState } from '@features/panel/state/panel.state';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,7 +27,7 @@ import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
     BrowserAnimationsModule,
     CoreModule,
     HttpClientModule,
-    NgxsModule.forRoot([AuthState], {
+    NgxsModule.forRoot([AuthState, PanelState], {
       developmentMode: !environment.production
     }),
     NgxsStoragePluginModule.forRoot({

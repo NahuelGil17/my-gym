@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { GetPanels } from '@features/panel/state/panel.actions';
+import { Store } from '@ngxs/store';
 
 @Component({
-  selector: 'clock',
+  selector: 'app-clock',
   templateUrl: './clock.component.html',
   styleUrls: ['./clock.component.scss']
 })
@@ -9,8 +11,11 @@ export class ClockComponent implements OnInit {
   currentTime: string = new Date().toLocaleTimeString();
   currentSecond: number = new Date().getSeconds();
   currentHour: number = new Date().getHours();
+  currentDay: string = this.getDayName(new Date().getDay());
 
-  ngOnInit() {
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
     setInterval(() => {
       const now = new Date();
 
@@ -28,11 +33,21 @@ export class ClockComponent implements OnInit {
     }, 1000);
   }
 
-  onSecondChange() {
-    console.log('Second has changed!');
+  onSecondChange(): void {
+    this.store.dispatch(
+      new GetPanels({
+        day: this.currentDay,
+        startTime: this.currentHour.toString(),
+        endTime: (this.currentHour + 1).toString()
+      })
+    );
   }
 
-  onHourChange() {
+  onHourChange(): void {
     //HACER PEDIDO PARA OBTENER LOS USUARIOS
+  }
+  getDayName(dayNumber: number): string {
+    const days = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+    return days[dayNumber];
   }
 }
