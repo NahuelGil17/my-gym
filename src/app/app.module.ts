@@ -29,25 +29,13 @@ import { User } from './features/user/interfaces/user.interface';
     BrowserAnimationsModule,
     CoreModule,
     HttpClientModule,
-    NgxsModule.forRoot([UsersState], {
+    NgxsModule.forRoot([AuthState, UserState], {
       developmentMode: !environment.production
     }),
-    NgxsModule.forRoot([AuthState], {
-      developmentMode: !environment.production
-    }),
-    NgxsModule.forRoot([UserState], {}),
     NgxsStoragePluginModule.forRoot({
       key: [
         {
           key: AuthState,
-          engine: SESSION_STORAGE_ENGINE
-        }
-      ]
-    }),
-    NgxsStoragePluginModule.forRoot({
-      key: [
-        {
-          key: UsersState,
           engine: SESSION_STORAGE_ENGINE
         }
       ]

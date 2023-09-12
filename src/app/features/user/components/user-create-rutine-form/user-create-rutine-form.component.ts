@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Routine } from '../../interfaces/user';
+import { Routine } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-user-create-rutine-form',
