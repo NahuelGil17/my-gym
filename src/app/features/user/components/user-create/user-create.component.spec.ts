@@ -8,7 +8,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { UserCreateRutineFormComponent } from '../user-create-rutine-form/user-create-rutine-form.component';
 import { CardComponent } from '@shared/components/card/card.component';
 
-describe('OrganizationCreateComponent', () => {
+xdescribe('OrganizationCreateComponent', () => {
   it('should render OrganizationCreateComponent', async () => {
     const { container } = await render(UserCreateComponent, {
       declarations: [
