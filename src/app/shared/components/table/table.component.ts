@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EColorBadge } from '../../enums/badge-color.enums';
 
@@ -11,7 +11,8 @@ import { EColorBadge } from '../../enums/badge-color.enums';
 })
 export class TableComponent {
   EColorBadge: typeof EColorBadge = EColorBadge;
-
+  @Output() readonly edit = new EventEmitter<any>();
+  @Output() readonly deactivate = new EventEmitter<any>();
   /**
    * The list of column names to display in the table.
    * @type {Array} array of column names
@@ -47,4 +48,20 @@ export class TableComponent {
    * @type {string} css class
    */
   @Input() headerCssClass = 'header-default';
+
+  /**
+   * Emit identifier to edit seats of an organization
+   * @param id Organization identifier
+   */
+  emitEdit(id: string): void {
+    this.edit.emit(id);
+  }
+
+  /**
+   * Emit identifier to deactivate organization
+   * @param id Organization identifier
+   */
+  emitDeactivate(id: string): void {
+    this.deactivate.emit(id);
+  }
 }
