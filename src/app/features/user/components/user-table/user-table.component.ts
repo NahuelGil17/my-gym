@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { UserState } from '@features/user/state/user.state';
+import { Select } from '@ngxs/store';
 import { EColorBadge } from '@shared/enums/badge-color.enums';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -8,7 +10,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './user-table.component.html'
 })
 export class UserTableComponent {
-  displayedColumns: string[] = ['nombre', 'apellido', 'activo', 'acciones'];
+  displayedColumns: string[] = ['name', 'lastName', 'isActive', 'acciones'];
 
   badgeColor: typeof EColorBadge = EColorBadge;
 
@@ -44,7 +46,7 @@ export class UserTableComponent {
 
   @Input() users!: Observable<any[]>;
   @Input() total: number | null = 0;
-  @Input() loading: boolean | null = false;
+  @Select(UserState.isLoading) loading!: Observable<boolean>;
   @Input() filteredData = false;
 
   @Output() readonly editSeats = new EventEmitter<any>();

@@ -14,9 +14,24 @@ export interface Routine {
   day: string;
 }
 
-export interface UsersStateModel {
-  users: User[];
-  total: number;
-  loading: boolean;
-  error: HttpErrorResponse | null;
+export interface UserApiResponse {
+  data: {
+    id: number;
+    attributes: {
+      name: string;
+      lastName: string;
+      isActive: boolean;
+      createdAt: string;
+      updatedAt: string;
+      publishedAt: string;
+    };
+  }[];
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
 }
