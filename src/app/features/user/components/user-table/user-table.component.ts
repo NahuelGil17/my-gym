@@ -14,34 +14,6 @@ export class UserTableComponent {
 
   badgeColor: typeof EColorBadge = EColorBadge;
 
-  data = [
-    {
-      nombre: 'John',
-      apellido: 'Doe',
-      activo: true,
-      acciones: 'Editar'
-    },
-    {
-      nombre: 'Jane',
-      apellido: 'Doe',
-      activo: false,
-      acciones: 'Eliminar'
-    },
-    {
-      nombre: 'Bob',
-      apellido: 'Smith',
-      activo: true,
-      acciones: 'Editar'
-    },
-    {
-      nombre: 'Alice',
-      apellido: 'Johnson',
-      activo: false,
-      acciones: 'Eliminar'
-    }
-  ];
-
-  data$: Observable<any> = of(this.data);
   pageSize = environment.config.pageSize;
 
   @Input() users!: Observable<any[]>;

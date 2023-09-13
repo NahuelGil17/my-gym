@@ -67,7 +67,7 @@ export class UserState {
 
     return getUsersObservable.pipe(
       tap((response: any) => {
-        const users = response.data.map((user: any) => user.attributes); // Extraemos la información del usuario
+        const users = response.data.map((user: any) => user.attributes);
         const total = response.meta.pagination.total;
         const pageCount = Math.ceil(total / pageSize);
 
