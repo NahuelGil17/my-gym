@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { UtilsService } from '@core/services/utils.service';
 import { pickProperties } from '@core/utilities/helpers';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, catchError, exhaustMap, tap, throwError } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 import { AuthResponse, Profile, UserPreferences } from '../interfaces/auth';
 import { AuthService } from '../services/auth.service';
 import { GetUserPreferences, Login, Logout } from './auth.actions';

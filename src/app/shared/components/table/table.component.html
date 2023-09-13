@@ -7,7 +7,7 @@
         {{ column | camelToTitle }}
       </th>
       <td cdk-cell *cdkCellDef="let element">
-        <ng-container *ngIf="column !== 'activo'; else badge">
+        <ng-container *ngIf="column !== 'isActive'; else badge">
           {{ element[column] }}
         </ng-container>
         <ng-template #badge>
@@ -15,6 +15,30 @@
             [colorBadge]="element[column] ? EColorBadge.SUCCESS : EColorBadge.ERROR"
             [textBadge]="element[column] ? 'Activo' : 'Inactivo'"></app-badge>
         </ng-template>
+        <ng-container *ngIf="column === 'acciones'">
+          <!-- Actions menu -->
+
+          <button title="actions" type="button" [matMenuTriggerFor]="actionsMenu">
+            <i class="ph-dots-three-vertical-fill text-neutral-700 text-3xl"></i>
+          </button>
+          <mat-menu #actionsMenu="matMenu" class="w-fit">
+            <ng-template matMenuContent>
+              <button (click)="emitEdit(element.id)" type="button" class="group" mat-menu-item>
+                <div class="flex flex-row items-center space-x-2">
+                  <i class="ph-pencil-simple text-button-lg"></i>
+                  <span class="group-hover:text-ms-gray-900">Editar</span>
+                </div>
+              </button>
+
+              <button (click)="emitDeactivate(element.id)" type="button" class="group" mat-menu-item>
+                <div class="flex flex-row items-center space-x-2">
+                  <i class="ph-x-circle-fill text-button-lg text-error-100 group-hover:text-error-200"></i>
+                  <span class="text-error-100 group-hover:text-error-200">Desactivar</span>
+                </div>
+              </button>
+            </ng-template>
+          </mat-menu>
+        </ng-container>
       </td>
     </ng-container>
 
@@ -23,7 +47,7 @@
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell h-[30vh]" [attr.colspan]="displayedColumns.length">
         <ng-container *ngIf="loading">
-          <app-loader [text]="'Loading data...'"></app-loader>
+          <app-loader [text]="'Cargando...'"></app-loader>
         </ng-container>
         <ng-container *ngIf="!loading && total === 0 && filteredData">
           <div class="flex flex-col text-center justify-center items-center space-y-4">
