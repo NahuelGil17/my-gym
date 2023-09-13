@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   login(): void {
     if (this.loginForm.valid) {
       this.store.dispatch(new Login(this.loginForm.value));
-
       this.actions.pipe(ofActionSuccessful(Login), takeUntil(this.destroy)).subscribe(() => {
         this.router.navigate(['/']);
       });

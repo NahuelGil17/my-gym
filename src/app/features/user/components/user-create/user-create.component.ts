@@ -19,16 +19,6 @@ export class UserCreateComponent {
   public userForm!: FormGroup;
   public routines: any[] = [];
   public body: any = {};
-
-  constructor(private fb: FormBuilder, private userService: UserService, private store: Store) {
-    this.userForm = this.fb.group({
-      user: this.fb.group({
-        name: [null, Validators.required],
-        lastName: [null, [Validators.required]]
-        // otros campos
-      })
-    });
-  }
   breadcrumbs: Breadcrumb[] = [
     {
       label: 'Usuarios',
@@ -38,6 +28,16 @@ export class UserCreateComponent {
       label: 'Crear Usuario'
     }
   ];
+
+  constructor(private fb: FormBuilder, private userService: UserService, private store: Store) {
+    this.userForm = this.fb.group({
+      user: this.fb.group({
+        name: [null, Validators.required],
+        lastName: [null, [Validators.required]],
+        isActive: [true, Validators.required]
+      })
+    });
+  }
 
   public receiveRoutineFormValues(event: any): void {
     this.routines.push(event);
