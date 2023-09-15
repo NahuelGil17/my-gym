@@ -1,23 +1,24 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Breadcrumb } from '@core/interfaces/breadcrumb.interface';
 import { UserService } from '@features/user/services/user.service';
-import { CreateUser } from '@features/user/state/user.actions';
-import { Store } from '@ngxs/store';
-import { forkJoin, tap } from 'rxjs';
-import { UserFormComponent } from '../user-form/user-form.component';
+import { AddRoutineArray, CreateUser, DeleteRoutineArray, UpdateRoutineArray } from '@features/user/state/user.actions';
+import { UserState } from '@features/user/state/user.state';
+import { Select, Store } from '@ngxs/store';
+import { Observable, forkJoin, tap } from 'rxjs';
 
 @Component({
   selector: 'app-user-create',
   templateUrl: './user-create.component.html',
   styleUrls: ['./user-create.component.scss']
 })
-export class UserCreateComponent {
-  @ViewChild(UserFormComponent) userFormComponent!: UserFormComponent;
-
+export class UserCreateComponent implements OnInit {
+  @Select(UserState.getRoutines) routines!: Observable<any[]>;
+  $userToEdit = this.store.select(UserState.getSelectedUser);
   public userForm!: FormGroup;
-  public routines: any[] = [];
   public body: any = {};
+  public routineIds: string[] = [];
+  public routineToEdit: any = null;
   breadcrumbs: Breadcrumb[] = [
     {
       label: 'Usuarios',
@@ -27,6 +28,8 @@ export class UserCreateComponent {
       label: 'Crear Usuario'
     }
   ];
+  public isEdit = false;
+  public editIndex!: number;
 
   constructor(private fb: FormBuilder, private userService: UserService, private store: Store) {
     this.userForm = this.fb.group({
@@ -38,8 +41,29 @@ export class UserCreateComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.$userToEdit.subscribe((user) => {
+      if (user) {
+        this.isEdit = true;
+        this.userForm.patchValue({
+          user: {
+            name: user.name,
+            lastName: user.lastName,
+            isActive: user.isActive
+          }
+        });
+      }
+    });
+  }
+
   public receiveRoutineFormValues(event: any): void {
-    this.routines.push(event);
+    if (!this.routineToEdit) {
+      this.store.dispatch(new AddRoutineArray(event));
+    } else {
+      this.store.dispatch(new UpdateRoutineArray({ routine: event, index: this.editIndex }));
+      this.routineToEdit = null;
+      this.editIndex = -1;
+    }
   }
 
   public convertTime(time: string): string {
@@ -69,32 +93,45 @@ export class UserCreateComponent {
     return formattedTime;
   }
 
+  deleteRoutine(index: number): void {
+    this.store.dispatch(new DeleteRoutineArray(index));
+  }
+
+  editRoutine(routine: any, index: number): void {
+    this.editIndex = index;
+    this.routineToEdit = routine;
+  }
+
   sendDataToApi(): void {
-    const routineCreationObservables = this.routines.map((routine) => {
-      const newRoutine = {
-        ...routine
-      };
-      newRoutine.startTime = this.convertTime(routine.startTime);
-      newRoutine.endTime = this.convertTime(routine.endTime);
-
-      return this.userService.createRoutine(newRoutine);
-    });
-
-    forkJoin(routineCreationObservables)
-      .pipe(
-        tap((routines) => {
-          const routineIds = routines.map((routine: any) => routine.data.id);
-
-          const newUser: any = {
-            data: {
-              routines: routineIds,
-              name: this.userForm.value.user.name,
-              lastName: this.userForm.value.user.lastName
-            }
+    if (!this.isEdit) {
+      const routines = this.store.selectSnapshot(UserState.getRoutines);
+      if (routines) {
+        const routineCreationObservables = routines.map((routine) => {
+          const newRoutine = {
+            ...routine
           };
-          this.store.dispatch(new CreateUser(newUser));
-        })
-      )
-      .subscribe();
+          newRoutine.startTime = this.convertTime(routine.startTime);
+          newRoutine.endTime = this.convertTime(routine.endTime);
+
+          return this.userService.createRoutine(newRoutine);
+        });
+        forkJoin(routineCreationObservables)
+          .pipe(
+            tap((routines) => {
+              this.routineIds = routines.map((routine: any) => routine.data.id);
+
+              const newUser: any = {
+                data: {
+                  routines: this.routineIds,
+                  name: this.userForm.value.user.name,
+                  lastName: this.userForm.value.user.lastName
+                }
+              };
+              this.store.dispatch(new CreateUser(newUser));
+            })
+          )
+          .subscribe();
+      }
+    }
   }
 }

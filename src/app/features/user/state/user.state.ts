@@ -4,19 +4,32 @@ import { Routine, User, UserApiResponse } from '../interfaces/user.interface';
 import { UserService } from '../services/user.service';
 import { catchError, tap } from 'rxjs/operators';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { CreateRoutine, CreateUser, DesactivateUser, GetUser, GetUsers, UpdateUser } from './user.actions';
+import {
+  AddRoutineArray,
+  CreateRoutine,
+  CreateUser,
+  DeleteRoutineArray,
+  DesactivateUser,
+  GetUser,
+  GetUsers,
+  UpdateRoutineArray,
+  UpdateUser
+} from './user.actions';
 import { Observable, throwError } from 'rxjs';
 import { UserStateModel } from './user.model';
+import { ro } from 'date-fns/locale';
 
 @State<UserStateModel>({
   name: 'users',
   defaults: {
     users: [],
+    selectedUser: null,
     total: 0,
     loading: false,
     error: null,
     currentPage: 0,
     pageSize: 0,
+    routines: [],
     pageCount: 0
   }
 })
@@ -51,6 +64,16 @@ export class UserState {
     return state.error;
   }
 
+  @Selector()
+  static getRoutines(state: UserStateModel): any[] | undefined | null {
+    return state.routines;
+  }
+
+  @Selector()
+  static getSelectedUser(state: UserStateModel): User | undefined | null {
+    return state.selectedUser;
+  }
+
   constructor(private userService: UserService) {}
 
   @Action(GetUsers, { cancelUncompleted: true })
@@ -67,7 +90,10 @@ export class UserState {
 
     return getUsersObservable.pipe(
       tap((response: any) => {
-        const users = response.data.map((user: any) => user.attributes);
+        const users = response.data.map((user: any) => ({
+          id: user.id,
+          ...user.attributes
+        }));
         const total = response.meta.pagination.total;
         const pageCount = Math.ceil(total / pageSize);
 
@@ -91,8 +117,13 @@ export class UserState {
   getUser(ctx: StateContext<UserStateModel>, { id }: GetUser): Observable<User> {
     ctx.patchState({ loading: true, error: null });
     return this.userService.getUser(id).pipe(
-      tap((user: User) => {
-        ctx.patchState({ users: [user], loading: false });
+      tap((res: any) => {
+        const { data } = res;
+        const { attributes } = data;
+        const { routines } = attributes;
+        const routinesToAdd = routines.data.map((routine: any) => ({ ...routine.attributes } as Routine));
+        const user = { ...attributes, routines: routinesToAdd };
+        ctx.patchState({ selectedUser: user, routines: routinesToAdd, loading: false });
       }),
       catchError((error) => {
         ctx.patchState({ error, loading: false });
@@ -142,11 +173,12 @@ export class UserState {
   }
 
   @Action(DesactivateUser, { cancelUncompleted: true })
-  deleteUser(ctx: StateContext<UserStateModel>, { id }: DeleteUser): void {
+  desactivateUser(ctx: StateContext<UserStateModel>, { id }: DesactivateUser): Observable<User> {
     ctx.patchState({ loading: true, error: null });
-    this.userService.deleteUser(id).pipe(
+    return this.userService.desactivateUser(id).pipe(
       tap(() => {
-        const users = ctx.getState().users.filter((u) => u.id !== id);
+        const users = ctx.getState().users?.map((user) => (user.id === id ? { ...user, isActive: false } : user));
+
         ctx.patchState({ users, loading: false });
       }),
       catchError((error) => {
@@ -154,5 +186,27 @@ export class UserState {
         return throwError(() => error);
       })
     );
+  }
+  // Routines Array
+  @Action(AddRoutineArray, { cancelUncompleted: true })
+  addRoutine(ctx: StateContext<UserStateModel>, { routine }: AddRoutineArray): void {
+    ctx.patchState({ loading: true, error: null });
+    const routines = ctx.getState().routines?.concat(routine);
+    ctx.patchState({ routines, loading: false });
+  }
+
+  @Action(UpdateRoutineArray, { cancelUncompleted: true })
+  updateRoutine(ctx: StateContext<UserStateModel>, action: UpdateRoutineArray): void {
+    //repalce the routine in the array with the new one
+    ctx.patchState({ loading: true, error: null });
+    const routines = ctx.getState().routines?.map((r, i) => (i === action.payload.index ? action.payload.routine : r));
+    ctx.patchState({ routines, loading: false });
+  }
+
+  @Action(DeleteRoutineArray, { cancelUncompleted: true })
+  deleteRoutine(ctx: StateContext<UserStateModel>, { index }: DeleteRoutineArray): void {
+    ctx.patchState({ loading: true, error: null });
+    const routines = ctx.getState().routines?.filter((r, i) => i !== index);
+    ctx.patchState({ routines, loading: false });
   }
 }

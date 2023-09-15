@@ -1,10 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
-
 export interface User {
   id: string;
   name: string;
   lastName: string;
-  Routines: Routine[];
+  isActive: boolean;
+  routines: Routine[];
 }
 
 export interface Routine {

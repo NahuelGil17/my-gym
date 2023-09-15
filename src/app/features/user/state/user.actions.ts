@@ -17,7 +17,7 @@ export class UpdateUser {
 
 export class DesactivateUser {
   static readonly type = '[User] Desactivate User';
-  constructor(public readonly id: number) {}
+  constructor(public readonly id: string) {}
 }
 
 export class CreateUser {
@@ -28,4 +28,19 @@ export class CreateUser {
 export class CreateRoutine {
   static readonly type = '[User] Create Routine';
   constructor(public readonly routine: Routine) {}
+}
+
+export class DeleteRoutineArray {
+  static readonly type = '[User] Delete Routine';
+  constructor(public readonly index: number) {}
+}
+
+export class AddRoutineArray {
+  static readonly type = '[User] Add Routine';
+  constructor(public readonly routine: Routine) {}
+}
+
+export class UpdateRoutineArray {
+  static readonly type = '[User] Update Routine';
+  constructor(public readonly payload: { routine: Routine; index: number }) {}
 }

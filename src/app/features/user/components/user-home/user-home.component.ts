@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 import { User } from '@features/user/interfaces/user.interface';
-import { GetUsers } from '@features/user/state/user.actions';
+import { DesactivateUser, GetUser, GetUsers } from '@features/user/state/user.actions';
 import { UserState } from '@features/user/state/user.state';
-import { Actions, Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Actions, Select, Store, ofActionSuccessful } from '@ngxs/store';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -25,7 +26,7 @@ export class UserHomeComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private store: Store, private actions: Actions) {}
+  constructor(private store: Store, private actions: Actions, private router: Router) {}
 
   ngOnInit(): void {
     const payload = {
@@ -56,11 +57,13 @@ export class UserHomeComponent implements OnInit, OnDestroy {
   }
 
   editUser(event: any): void {
-    //TODO
+    this.store.dispatch(new GetUser(event));
+    this.actions.pipe(ofActionSuccessful(GetUser), takeUntil(this.destroy)).subscribe(() => {
+      this.router.navigate(['/usuarios/create']);
+    });
   }
-
   desactivateUser(event: any): void {
-    //TODO
+    this.store.dispatch(new DesactivateUser(event));
   }
 
   ngOnDestroy(): void {

@@ -1,11 +1,17 @@
-<div class="card max-w-xs">
-  <div class="flex flex-col justify-around bg-white rounded-md ring-1 ring-neutral-400 mb-4 mr-4 p-4 max-h-48 relative">
-    <h4 class="text-2xl mb-2">{{ day }}</h4>
+<div class="card w-72 h-96">
+  <div
+    class="flex flex-col justify-around bg-white rounded-md ring-1 ring-neutral-400 h-48 mb-4 mr-4 p-4 max-h-96 relative">
+    <div class="flex justify-between">
+      <h4 class="text-2xl mb-2">{{ day }}</h4>
+    </div>
     <p><span class="font-bold text-lg">Hora: </span> {{ startTime }} - {{ endTime }}</p>
     <p class="truncate max-w-xs"><span class="font-bold text-lg">Ejercicios: </span> {{ exercises }}</p>
     <div
       class="absolute z-50 top-0 left-3/4 mt-2 p-2 bg-gray-800 text-white rounded max-h-48 transition-opacity duration-300 break-words opacity-0 hover:opacity-100">
       {{ exercises }}
+    </div>
+    <div>
+      <ng-content></ng-content>
     </div>
   </div>
 </div>

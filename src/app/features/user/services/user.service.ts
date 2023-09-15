@@ -24,7 +24,7 @@ export class UserService {
   }
 
   getUser(id: number): Observable<User> {
-    const url = `${environment.api}/clients/${id}`;
+    const url = `${environment.api}/clients/${id}?populate=*`;
     return this.http.get<User>(url);
   }
 
@@ -43,8 +43,9 @@ export class UserService {
     return this.http.post<Routine>(url, { data: routine });
   }
 
-  desactivateUser(id: number): Observable<User> {
+  desactivateUser(id: string): Observable<User> {
     const url = `${environment.api}/clients/${id}`;
-    return this.http.put<User>(url, { isActive: false });
+    const data = { data: { isActive: false } };
+    return this.http.put<User>(url, data);
   }
 }
