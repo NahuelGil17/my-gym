@@ -9,23 +9,21 @@ import { Store } from '@ngxs/store';
 })
 export class ClockComponent implements OnInit {
   currentTime: string = new Date().toLocaleTimeString();
-  currentSecond: number = new Date().getSeconds();
   currentHour: number = new Date().getHours();
+  currentHourFormatted: string = this.formatHour(this.currentHour);
   currentDay: string = this.getDayName(new Date().getDay());
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
+    this.onHourChange();
+
     setInterval(() => {
       const now = new Date();
 
-      if (now.getSeconds() !== this.currentSecond) {
-        this.currentSecond = now.getSeconds();
-        this.onSecondChange();
-      }
-
       if (now.getHours() !== this.currentHour) {
         this.currentHour = now.getHours();
+        this.currentHourFormatted = this.formatHour(this.currentHour);
         this.onHourChange();
       }
 
@@ -33,19 +31,22 @@ export class ClockComponent implements OnInit {
     }, 1000);
   }
 
-  onSecondChange(): void {
+  formatHour(hour: number): string {
+    return `${String(hour).padStart(2, '0')}:00:00.000`;
+  }
+
+  onHourChange(): void {
+    const nextHour = (this.currentHour + 1) % 24;
+
     this.store.dispatch(
       new GetPanels({
         day: this.currentDay,
-        startTime: this.currentHour.toString(),
-        endTime: (this.currentHour + 1).toString()
+        startTime: this.currentHourFormatted,
+        endTime: this.formatHour(nextHour)
       })
     );
   }
 
-  onHourChange(): void {
-    //HACER PEDIDO PARA OBTENER LOS USUARIOS
-  }
   getDayName(dayNumber: number): string {
     const days = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
     return days[dayNumber];

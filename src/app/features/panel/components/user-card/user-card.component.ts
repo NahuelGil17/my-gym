@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Panel } from '@features/panel/interfaces/panel.interface';
 
 @Component({
   selector: 'app-user-card',
@@ -6,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./user-card.component.scss']
 })
 export class UserCardComponent {
-  @Input() data: { nombre: string; routines: string[] } = { nombre: '', routines: [] };
+  @Input() data!: Panel;
 }

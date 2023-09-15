@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngxs/store';
+import { PanelState } from '@features/panel/state/panel.state';
+import { Panel } from '@features/panel/interfaces/panel.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-panel',
@@ -7,7 +11,9 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./panel-home.component.scss']
 })
 export class PanelHomeComponent implements OnInit {
-  items: { nombre: string; routines: string[] }[] = [];
+  store = inject(Store);
+  items$: Observable<Panel[]> = this.store.select(PanelState.panels) || [];
+  items: Panel[] = [];
 
   get halfCount(): number {
     return Math.ceil(this.items.length / 2);
@@ -16,27 +22,8 @@ export class PanelHomeComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.fetchItems();
-  }
-
-  fetchItems(): void {
-    this.items = [
-      { nombre: 'Juan', routines: ['pecho', 'espalda', 'brazo', 'pierna'] },
-      { nombre: 'Ana', routines: ['hombros', 'abdominales', 'cardio', 'brazo'] },
-      { nombre: 'Luis', routines: ['pierna', 'espalda', 'pecho', 'cardio'] },
-      { nombre: 'María', routines: ['cardio', 'abdominales', 'hombros', 'pierna'] },
-      { nombre: 'Carlos', routines: ['brazo', 'hombros', 'cardio', 'abdominales'] },
-      { nombre: 'Lucía', routines: ['espalda', 'brazo', 'hombros', 'pecho'] },
-      { nombre: 'Diego', routines: ['abdominales', 'pierna', 'brazo', 'hombros'] },
-      { nombre: 'Isabel', routines: ['cardio', 'pecho', 'espalda', 'brazo'] }
-    ];
-
-    /*
-    this.http.get<{ nombre: string, routines: string[] }[]>('URL').subscribe(data => {
-      this.data = data;
-    }, error => {
-      console.error('error in obtaining routines:', error);
+    this.items$.subscribe((items) => {
+      this.items = items;
     });
-    */
   }
 }

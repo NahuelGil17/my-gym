@@ -1,5 +1,5 @@
 export interface Panel {
-  userName: string;
+  name: string;
   lastName: string;
   routine: string[];
 }

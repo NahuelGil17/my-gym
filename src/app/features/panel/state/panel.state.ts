@@ -23,6 +23,11 @@ export class PanelState {
     return state.loading;
   }
 
+  @Selector()
+  static panels(state: PanelStateModel): Panel[] {
+    return state.panels ?? [];
+  }
+
   constructor(private panelService: PanelService, private utilsService: UtilsService) {}
 
   @Action(GetPanels, { cancelUncompleted: true })
@@ -30,8 +35,24 @@ export class PanelState {
     ctx.patchState({ loading: true });
 
     return this.panelService.getPanels(action.payload).pipe(
-      tap((panels: any[]) => {
-        ctx.patchState({ panels: panels, loading: false });
+      tap((response: any) => {
+        const { data } = response;
+        let _panels = [];
+        if (data.length) {
+          _panels = data.map((p: any) => {
+            return {
+              name: p.attributes.name,
+              lastName: p.attributes.lastName,
+              routine: p.attributes.routines.data.map((r: any) => {
+                return r.attributes.excersises.split(';');
+              })
+            };
+          });
+        }
+
+        console.log(_panels);
+
+        ctx.patchState({ panels: _panels, loading: false });
       }),
       catchError((err: HttpErrorResponse) => {
         return throwError(() => err);
