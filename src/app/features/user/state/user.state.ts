@@ -4,7 +4,7 @@ import { Routine, User, UserApiResponse } from '../interfaces/user.interface';
 import { UserService } from '../services/user.service';
 import { catchError, tap } from 'rxjs/operators';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { CreateRoutine, CreateUser, GetUser, GetUsers, UpdateUser } from './user.actions';
+import { CreateRoutine, CreateUser, DesactivateUser, GetUser, GetUsers, UpdateUser } from './user.actions';
 import { Observable, throwError } from 'rxjs';
 import { UserStateModel } from './user.model';
 
@@ -141,18 +141,18 @@ export class UserState {
     );
   }
 
-  // @Action(DeleteUser)
-  // deleteUser(ctx: StateContext<UserStateModel>, { id }: DeleteUser): void {
-  //   ctx.patchState({ loading: true, error: null });
-  //   this.userService.deleteUser(id).pipe(
-  //     tap(() => {
-  //       const users = ctx.getState().users.filter((u) => u.id !== id);
-  //       ctx.patchState({ users, loading: false });
-  //     }),
-  //     catchError((error) => {
-  //       ctx.patchState({ error, loading: false });
-  //       return throwError(() => error);
-  //     })
-  //   );
-  // }
+  @Action(DesactivateUser, { cancelUncompleted: true })
+  deleteUser(ctx: StateContext<UserStateModel>, { id }: DeleteUser): void {
+    ctx.patchState({ loading: true, error: null });
+    this.userService.deleteUser(id).pipe(
+      tap(() => {
+        const users = ctx.getState().users.filter((u) => u.id !== id);
+        ctx.patchState({ users, loading: false });
+      }),
+      catchError((error) => {
+        ctx.patchState({ error, loading: false });
+        return throwError(() => error);
+      })
+    );
+  }
 }

@@ -15,8 +15,8 @@ export class UpdateUser {
   constructor(public readonly user: User) {}
 }
 
-export class DeleteUser {
-  static readonly type = '[User] Delete User';
+export class DesactivateUser {
+  static readonly type = '[User] Desactivate User';
   constructor(public readonly id: number) {}
 }
 

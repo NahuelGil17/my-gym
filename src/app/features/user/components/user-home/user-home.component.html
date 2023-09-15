@@ -4,7 +4,13 @@
       ><i class="ph-plus text-white text-lg"></i> <span>Create user</span></a
     ></app-filters-bar
   >
-  <app-user-table [users]="users" [total]="total | async" [filteredData]="!!filterValues">
+  <app-table
+    [displayedColumns]="displayedColumns"
+    [data]="users"
+    [total]="total | async"
+    [loading]="loading | async"
+    (edit)="editUser($event)"
+    (deactivate)="desactivateUser($event)">
     <mat-paginator
       appJumpPages
       class="border-t rounded-b-md"
@@ -12,5 +18,5 @@
       [pageSize]="pageSize"
       (page)="paginate($event)">
     </mat-paginator
-  ></app-user-table>
+  ></app-table>
 </div>

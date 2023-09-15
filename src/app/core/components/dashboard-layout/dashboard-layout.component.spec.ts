@@ -45,7 +45,7 @@ describe('DashboardLayoutComponent', () => {
   it('should render navigation links with the correct href attributes', async () => {
     const links = screen.getAllByRole('link', { hidden: true });
     const orgLink = links[0];
-    expect(orgLink.getAttribute('href')).toEqual('/organizations');
+    expect(orgLink.getAttribute('href')).toEqual('/usuarios');
 
     /*     const userLink = links[1];
     expect(userLink.getAttribute('href')).toEqual('/users');

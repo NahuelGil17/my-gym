@@ -1,12 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { Breadcrumb } from '@core/interfaces/breadcrumb.interface';
-import { UserFormComponent } from '../user-form/user-form.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateRoutine, CreateUser } from '@features/user/state/user.actions';
+import { Breadcrumb } from '@core/interfaces/breadcrumb.interface';
+import { UserService } from '@features/user/services/user.service';
+import { CreateUser } from '@features/user/state/user.actions';
 import { Store } from '@ngxs/store';
 import { forkJoin, tap } from 'rxjs';
-import { User } from '@features/user/interfaces/user.interface';
-import { UserService } from '@features/user/services/user.service';
+import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
   selector: 'app-user-create',

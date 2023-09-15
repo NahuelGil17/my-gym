@@ -16,6 +16,7 @@ export class UserHomeComponent implements OnInit, OnDestroy {
   @Select(UserState.isLoading) loading!: Observable<boolean>;
   @Select(UserState.getTotal) total!: Observable<number>;
 
+  displayedColumns: string[] = ['name', 'lastName', 'isActive', 'acciones'];
   pageSize = environment.config.pageSize;
   defaultSort = 'name desc';
   filterValues: any | null = null;
@@ -52,6 +53,14 @@ export class UserHomeComponent implements OnInit, OnDestroy {
     };
 
     this.store.dispatch(new GetUsers({ ...this.filterValues }));
+  }
+
+  editUser(event: any): void {
+    //TODO
+  }
+
+  desactivateUser(event: any): void {
+    //TODO
   }
 
   ngOnDestroy(): void {

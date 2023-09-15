@@ -42,4 +42,9 @@ export class UserService {
     const url = `${environment.api}/routines`;
     return this.http.post<Routine>(url, { data: routine });
   }
+
+  desactivateUser(id: number): Observable<User> {
+    const url = `${environment.api}/clients/${id}`;
+    return this.http.put<User>(url, { isActive: false });
+  }
 }
