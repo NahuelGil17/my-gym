@@ -49,9 +49,6 @@ export class PanelState {
             };
           });
         }
-
-        console.log(_panels);
-
         ctx.patchState({ panels: _panels, loading: false });
       }),
       catchError((err: HttpErrorResponse) => {
