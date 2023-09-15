@@ -29,3 +29,8 @@ export class CreateRoutine {
   static readonly type = '[User] Create Routine';
   constructor(public readonly routine: Routine) {}
 }
+
+export class DeleteRoutine {
+  static readonly type = '[User] Delete Routine';
+  constructor(public readonly id: number) {}
+}

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-card',
@@ -17,4 +17,10 @@ export class CardComponent {
   @Input() endTime: string;
   @Input() startTime: string;
   @Input() exercises: string[];
+
+  @Output() readonly deleteRoutineEvent = new EventEmitter<void>();
+
+  deleteRoutine(): void {
+    this.deleteRoutineEvent.emit();
+  }
 }

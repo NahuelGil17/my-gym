@@ -42,4 +42,9 @@ export class UserService {
     const url = `${environment.api}/routines`;
     return this.http.post<Routine>(url, { data: routine });
   }
+
+  deleteRoutine(id: number): Observable<any> {
+    const url = `${environment.api}/routines/${id}`;
+    return this.http.delete<any>(url);
+  }
 }

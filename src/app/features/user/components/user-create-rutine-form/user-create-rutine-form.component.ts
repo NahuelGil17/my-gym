@@ -8,6 +8,8 @@ import { Routine } from '../../interfaces/user.interface';
   styleUrls: ['./user-create-rutine-form.component.scss']
 })
 export class UserCreateRutineFormComponent {
+  daysOfWeek: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'];
+  daySelected = '';
   userRoutineForm!: FormGroup;
   routines: Routine[] = [];
 

@@ -19,6 +19,7 @@ export class UserCreateComponent {
   public userForm!: FormGroup;
   public routines: any[] = [];
   public body: any = {};
+  public routineIds: string[] = [];
   breadcrumbs: Breadcrumb[] = [
     {
       label: 'Usuarios',
@@ -70,6 +71,10 @@ export class UserCreateComponent {
     return formattedTime;
   }
 
+  deleteRoutine(index: number): void {
+    this.routines.splice(index, 1);
+  }
+
   sendDataToApi(): void {
     const routineCreationObservables = this.routines.map((routine) => {
       const newRoutine = {
@@ -84,11 +89,11 @@ export class UserCreateComponent {
     forkJoin(routineCreationObservables)
       .pipe(
         tap((routines) => {
-          const routineIds = routines.map((routine: any) => routine.data.id);
+          this.routineIds = routines.map((routine: any) => routine.data.id);
 
           const newUser: any = {
             data: {
-              routines: routineIds,
+              routines: this.routineIds,
               name: this.userForm.value.user.name,
               lastName: this.userForm.value.user.lastName
             }

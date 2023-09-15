@@ -4,7 +4,7 @@ import { Routine, User, UserApiResponse } from '../interfaces/user.interface';
 import { UserService } from '../services/user.service';
 import { catchError, tap } from 'rxjs/operators';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { CreateRoutine, CreateUser, GetUser, GetUsers, UpdateUser } from './user.actions';
+import { CreateRoutine, CreateUser, DeleteRoutine, GetUser, GetUsers, UpdateUser } from './user.actions';
 import { Observable, throwError } from 'rxjs';
 import { UserStateModel } from './user.model';
 
@@ -134,6 +134,21 @@ export class UserState {
   createRoutine(ctx: StateContext<UserStateModel>, { routine }: CreateRoutine): Observable<Routine> {
     ctx.patchState({ loading: true, error: null });
     return this.userService.createRoutine(routine).pipe(
+      catchError((error) => {
+        ctx.patchState({ error, loading: false });
+        return throwError(() => error);
+      })
+    );
+  }
+
+  @Action(DeleteRoutine)
+  deleteRoutine(ctx: StateContext<UserStateModel>, { id }: DeleteRoutine): Observable<any> {
+    ctx.patchState({ loading: true, error: null });
+    return this.userService.deleteRoutine(id).pipe(
+      tap(() => {
+        const routines = ctx.getState().routines?.filter((r) => r.id !== id);
+        ctx.patchState({ routines, loading: false });
+      }),
       catchError((error) => {
         ctx.patchState({ error, loading: false });
         return throwError(() => error);

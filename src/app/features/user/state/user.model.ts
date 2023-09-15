@@ -9,4 +9,5 @@ export class UserStateModel {
   currentPage?: number | null;
   pageSize?: number | null;
   pageCount?: number | null;
+  routines?: any[] | null;
 }

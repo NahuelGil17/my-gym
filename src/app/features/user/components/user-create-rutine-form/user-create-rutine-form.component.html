@@ -5,7 +5,9 @@
   <h2 class="text-2xl pt-1 pl-6">Rutina</h2>
   <div class="justify-around min-w-max flex">
     <div class="w-full p-4">
-      <input appInput type="text" label="Dia" formControlName="day" />
+      <select appInput label="Dia" formControlName="day" [(ngModel)]="daySelected">
+        <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
+      </select>
       <input appInput type="time" label="Inicio" formControlName="startTime" />
     </div>
     <div class="w-full p-4">
