@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { UtilsService } from '@core/services/utils.service';
 import { pickProperties } from '@core/utilities/helpers';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, catchError, exhaustMap, tap, throwError } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 import { AuthResponse, Profile, UserPreferences } from '../interfaces/auth';
 import { AuthService } from '../services/auth.service';
 import { GetUserPreferences, Login, Logout } from './auth.actions';
@@ -34,11 +34,6 @@ export class AuthState {
     return !!state.auth?.jwt;
   }
 
-  // @Selector()
-  // static permissions(state: AuthStateModel): string[] | undefined {
-  //   return state.auth?.permissions;
-  // }
-
   @Selector()
   static userId(state: AuthStateModel): string | undefined {
     return state.preferences?.id;
@@ -63,7 +58,6 @@ export class AuthState {
       tap((auth: AuthResponse) => {
         ctx.patchState({ auth });
       }),
-      // exhaustMap(() => ctx.dispatch(new GetUserPreferences())),
       tap(() => {
         ctx.patchState({ loading: false });
       }),
@@ -91,19 +85,12 @@ export class AuthState {
   }
 
   @Action(Logout)
-  logout(ctx: StateContext<AuthStateModel>): Observable<any> {
-    return this.authService.logOut().pipe(
-      tap(() => {
-        ctx.setState({
-          auth: null,
-          loading: false,
-          preferences: null
-        });
-        this.utilsService.cleanStorage();
-      }),
-      catchError((err: HttpErrorResponse) => {
-        return throwError(() => err);
-      })
-    );
+  logout(ctx: StateContext<AuthStateModel>): void {
+    ctx.setState({
+      auth: null,
+      loading: false,
+      preferences: null
+    });
+    this.utilsService.cleanStorage();
   }
 }

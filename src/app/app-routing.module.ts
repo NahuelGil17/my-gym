@@ -4,6 +4,7 @@ import { LoaderComponent } from '@core/components/loader/loader.component';
 import { authGuard } from '@core/guards/auth.guard';
 import { signInGuard } from '@core/guards/sign-in.guard';
 import { DashboardLayoutComponent } from './core/components/dashboard-layout/dashboard-layout.component';
+import { UserModule } from './features/user/user.module';
 
 const routes: Routes = [
   {
@@ -11,11 +12,11 @@ const routes: Routes = [
     component: DashboardLayoutComponent,
     canActivate: [signInGuard],
     children: [
-      { path: '', redirectTo: 'organizations', pathMatch: 'full' },
+      { path: '', redirectTo: 'usuarios', pathMatch: 'full' },
       {
-        path: 'organizations',
-        loadChildren: () => import('./features/organization/organization.module').then((m) => m.OrganizationModule),
-        title: 'Organizations'
+        path: 'usuarios',
+        loadChildren: () => import('./features/user/user.module').then((m) => m.UserModule),
+        title: 'Usuarios'
       },
       {
         path: 'settings',

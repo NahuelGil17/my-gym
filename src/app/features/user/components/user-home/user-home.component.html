@@ -1,0 +1,16 @@
+<div class="flex flex-col space-y-6 w-full">
+  <app-filters-bar (formValues)="onSearch($event)"
+    ><a class="btn-primary button-link" routerLink="/usuarios/create"
+      ><i class="ph-plus text-white text-lg"></i> <span>Create user</span></a
+    ></app-filters-bar
+  >
+  <app-user-table [users]="users" [total]="total | async" [filteredData]="!!filterValues">
+    <mat-paginator
+      appJumpPages
+      class="border-t rounded-b-md"
+      [length]="total | async"
+      [pageSize]="pageSize"
+      (page)="paginate($event)">
+    </mat-paginator
+  ></app-user-table>
+</div>

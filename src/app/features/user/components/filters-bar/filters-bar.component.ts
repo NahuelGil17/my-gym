@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { whiteSpaceValidator } from '@core/validators/whitespace.validator';
-import { Subject, debounceTime, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-filters-bar',
-  templateUrl: './filters-bar.component.html',
-  styleUrls: ['./filters-bar.component.scss']
+  template: ``
 })
 export class FiltersBarComponent implements OnInit, OnDestroy {
   filterForm!: FormGroup;
@@ -21,14 +20,9 @@ export class FiltersBarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.filterForm.valueChanges
-      .pipe(
-        debounceTime(500), // Add a debounce time of 500 milliseconds
-        takeUntil(this.destroy)
-      )
-      .subscribe(() => {
-        if (this.filterForm.valid) this.formValues.emit(this.filterForm.value);
-      });
+    this.filterForm.valueChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
+      if (this.filterForm.valid) this.formValues.emit(this.filterForm.value);
+    });
   }
 
   ngOnDestroy(): void {
