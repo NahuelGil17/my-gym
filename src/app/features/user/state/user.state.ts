@@ -12,6 +12,8 @@ import {
   DesactivateUser,
   GetUser,
   GetUsers,
+  SetRoutines,
+  SetSelectedUser,
   UpdateRoutineArray,
   UpdateUser
 } from './user.actions';
@@ -121,23 +123,11 @@ export class UserState {
         const { data } = res;
         const { attributes } = data;
         const { routines } = attributes;
-        const routinesToAdd = routines.data.map((routine: any) => ({ ...routine.attributes } as Routine));
-        const user = { ...attributes, routines: routinesToAdd };
+        const routinesToAdd = routines.data.map(
+          (routine: any) => ({ id: routine.id, ...routine.attributes } as Routine)
+        );
+        const user = { id: data.id, ...attributes, routines: routinesToAdd };
         ctx.patchState({ selectedUser: user, routines: routinesToAdd, loading: false });
-      }),
-      catchError((error) => {
-        ctx.patchState({ error, loading: false });
-        return throwError(() => error);
-      })
-    );
-  }
-  @Action(UpdateUser, { cancelUncompleted: true })
-  updateUser(ctx: StateContext<UserStateModel>, { user }: UpdateUser): Observable<User> {
-    ctx.patchState({ loading: true, error: null });
-    return this.userService.updateUser(user).pipe(
-      tap((updatedUser: User) => {
-        const users = ctx.getState().users?.map((u) => (u.id === updatedUser.id ? updatedUser : u));
-        ctx.patchState({ users, loading: false });
       }),
       catchError((error) => {
         ctx.patchState({ error, loading: false });
@@ -159,6 +149,31 @@ export class UserState {
         return throwError(() => error);
       })
     );
+  }
+
+  @Action(UpdateUser, { cancelUncompleted: true })
+  updateUser(ctx: StateContext<UserStateModel>, { user }: UpdateUser): Observable<User> {
+    ctx.patchState({ loading: true, error: null });
+    return this.userService.updateUser(user).pipe(
+      tap((updatedUser: User) => {
+        const users = ctx.getState().users?.map((u) => (u.id === updatedUser.id ? updatedUser : u));
+        ctx.patchState({ users, loading: false });
+      }),
+      catchError((error) => {
+        ctx.patchState({ error, loading: false });
+        return throwError(() => error);
+      })
+    );
+  }
+
+  @Action(SetSelectedUser, { cancelUncompleted: true })
+  setSelectedUser(ctx: StateContext<UserStateModel>, { user }: SetSelectedUser): void {
+    ctx.patchState({ selectedUser: user });
+  }
+
+  @Action(SetRoutines, { cancelUncompleted: true })
+  setRoutines(ctx: StateContext<UserStateModel>, { routines }: SetRoutines): void {
+    ctx.patchState({ routines: routines });
   }
 
   @Action(CreateRoutine)

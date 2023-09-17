@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EColorBadge } from '../../enums/badge-color.enums';
 

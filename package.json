@@ -37,6 +37,7 @@
     "@angular/router": "^16.0.0",
     "@auth0/angular-jwt": "^5.1.2",
     "@nguniversal/express-engine": "^16.0.2",
+    "@ngx-translate/core": "^15.0.0",
     "@ngxs/logger-plugin": "^3.8.1",
     "@ngxs/storage-plugin": "^3.8.1",
     "@ngxs/store": "^3.8.1",

@@ -7,6 +7,7 @@ export interface User {
 }
 
 export interface Routine {
+  id?: string;
   startTime: string; //Review this type
   endTime: string; //Review this type
   exercises: string;

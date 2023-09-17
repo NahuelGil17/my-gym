@@ -46,6 +46,9 @@ import { PluralizePipe } from './pipes/pluralize.pipe';
 import { CardComponent } from './components/card/card.component';
 import { TableComponent } from './components/table/table.component';
 import { CamelToTitlePipe } from './pipes/camel-to-title.pipe';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { TranslationPipe } from './pipes/translation.pipe';
+import { TimeFormatPipe } from './pipes/time-format.pipe';
 
 @NgModule({
   declarations: [
@@ -74,7 +77,9 @@ import { CamelToTitlePipe } from './pipes/camel-to-title.pipe';
     FiltersBarComponent,
     CardComponent,
     TableComponent,
-    CamelToTitlePipe
+    CamelToTitlePipe,
+    TranslationPipe,
+    TimeFormatPipe
   ],
   imports: [
     CommonModule,
@@ -95,7 +100,8 @@ import { CamelToTitlePipe } from './pipes/camel-to-title.pipe';
     MatDateFnsModule,
     OverlayModule,
     MatRadioModule,
-    CdkTableModule
+    CdkTableModule,
+    TranslateModule.forRoot()
   ],
   exports: [
     RouterModule,
@@ -139,7 +145,10 @@ import { CamelToTitlePipe } from './pipes/camel-to-title.pipe';
     BadgeComponent,
     CardComponent,
     TableComponent,
-    CamelToTitlePipe
+    CamelToTitlePipe,
+    TranslateModule,
+    TranslationPipe,
+    TimeFormatPipe
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntlService },

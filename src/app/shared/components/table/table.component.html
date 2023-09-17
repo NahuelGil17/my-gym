@@ -4,7 +4,7 @@
   <table class="w-full" cdk-table aria-describedby="table" [dataSource]="data">
     <ng-container *ngFor="let column of displayedColumns" [cdkColumnDef]="column">
       <th cdk-header-cell *cdkHeaderCellDef [ngClass]="headerCssClass">
-        {{ column | camelToTitle }}
+        {{ column | translation | camelToTitle }}
       </th>
       <td cdk-cell *cdkCellDef="let element">
         <ng-container *ngIf="column !== 'isActive'; else badge">

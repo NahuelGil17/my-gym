@@ -10,6 +10,16 @@ export class GetUser {
   constructor(public readonly id: number) {}
 }
 
+export class SetSelectedUser {
+  static readonly type = '[User] Set Selected User';
+  constructor(public readonly user: User | null) {}
+}
+
+export class SetRoutines {
+  static readonly type = '[User] Set Routines';
+  constructor(public readonly routines: Routine[]) {}
+}
+
 export class UpdateUser {
   static readonly type = '[User] Update User';
   constructor(public readonly user: User) {}

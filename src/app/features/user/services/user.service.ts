@@ -30,7 +30,7 @@ export class UserService {
 
   updateUser(user: User): Observable<User> {
     const url = `${environment.api}/clients/${user.id}`;
-    return this.http.put<User>(url, user);
+    return this.http.put<User>(url, { data: user });
   }
 
   createUser(user: User): Observable<User> {
@@ -41,6 +41,11 @@ export class UserService {
   createRoutine(routine: Routine): Observable<Routine> {
     const url = `${environment.api}/routines`;
     return this.http.post<Routine>(url, { data: routine });
+  }
+
+  updateRoutine(routine: Routine): Observable<Routine[]> {
+    const url = `${environment.api}/routines/${routine.id}`;
+    return this.http.put<Routine[]>(url, { data: routine });
   }
 
   desactivateUser(id: string): Observable<User> {
