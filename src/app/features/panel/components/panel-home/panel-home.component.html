@@ -1,0 +1,10 @@
+<div class="max-w-6xl mx-auto p-5">
+  <!-- <h1 class="text-6xl font-bold mb-2.5 text-center text-gray-900">STEEL PARADISE</h1> -->
+  <div class="flex justify-between flex-wrap">
+    <app-user-card *ngFor="let item of items.slice(0, halfCount)" [data]="item"></app-user-card>
+  </div>
+  <app-clock></app-clock>
+  <div class="flex justify-between flex-wrap">
+    <app-user-card *ngFor="let item of items.slice(halfCount)" [data]="item"></app-user-card>
+  </div>
+</div>
