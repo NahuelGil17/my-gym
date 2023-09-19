@@ -4,9 +4,10 @@ import { UserCardComponent } from '@features/panel/components/user-card/user-car
 import { ClockComponent } from '@features/panel/components/clock/clock.component';
 import { PanelHomeComponent } from '@features/panel/components/panel-home/panel-home.component';
 import { PanelRoutingModule } from '@features/panel/panel-routing.module';
+import { AddPanelModalComponent } from './components/add-panel-modal/add-panel-modal.component';
 
 @NgModule({
-  declarations: [UserCardComponent, ClockComponent, PanelHomeComponent],
+  declarations: [UserCardComponent, ClockComponent, PanelHomeComponent, AddPanelModalComponent],
   imports: [CommonModule, PanelRoutingModule]
 })
 export class PanelModule {}

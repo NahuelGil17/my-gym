@@ -115,3 +115,23 @@ export function updateValidators(control: FormControl, valid: boolean): void {
   }
   control.updateValueAndValidity();
 }
+
+export function parseExercises(input: string): Array<{ exerciseName: string; series: number; reps: number }> {
+  const exerciseList = input.split('.').filter((e) => e.trim() !== '');
+
+  return exerciseList.map((exerciseString) => {
+    const seriesMatch = exerciseString.match(/(\d+) series/);
+    const repsMatch = exerciseString.match(/(\d+) repeticiones/);
+
+    const series = seriesMatch ? parseInt(seriesMatch[1], 10) : 0;
+    const reps = repsMatch ? parseInt(repsMatch[1], 10) : 0;
+
+    const exerciseName = exerciseString.split(':')[0].trim();
+
+    return {
+      exerciseName,
+      series,
+      reps
+    };
+  });
+}

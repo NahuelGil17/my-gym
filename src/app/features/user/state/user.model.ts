@@ -3,10 +3,12 @@ import { User } from '../interfaces/user.interface';
 
 export class UserStateModel {
   users?: User[] | null;
+  selectedUser?: User | null;
   loading?: boolean | null;
   total?: number | null;
   error?: HttpErrorResponse | null;
   currentPage?: number | null;
   pageSize?: number | null;
   pageCount?: number | null;
+  routines?: any[] | null;
 }

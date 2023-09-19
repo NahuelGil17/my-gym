@@ -1,7 +1,8 @@
 export interface Panel {
+  id?: string;
   name: string;
   lastName: string;
-  routine: string[];
+  routine: any;
 }
 
 export interface PanelPayload {

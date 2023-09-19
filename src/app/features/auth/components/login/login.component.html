@@ -14,7 +14,7 @@
         autocomplete="off" />
       <div class="space-y-2">
         <div class="relative">
-          <button type="button" (click)="showPassword = !showPassword" class="input-icon-right">
+          <button title="showPassword" type="button" (click)="showPassword = !showPassword" class="input-icon-right">
             <i [ngClass]="showPassword ? 'ph-eye-slash' : 'ph-eye'"></i>
           </button>
           <input
@@ -42,7 +42,7 @@
         [loader]="(loading | async)!"
         [animate]="true"
         [disabled]="loginForm.invalid || (loading | async)">
-        <span> {{ loading | async | conditionalText : 'Loading...' : 'Login' }}</span>
+        <span> {{ loading | async | conditionalText : 'Cargando...' : 'Ingresar' }}</span>
       </button>
     </div>
   </form>

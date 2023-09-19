@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserState } from '@features/user/state/user.state';
 import { Select } from '@ngxs/store';
 import { EColorBadge } from '@shared/enums/badge-color.enums';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Component({

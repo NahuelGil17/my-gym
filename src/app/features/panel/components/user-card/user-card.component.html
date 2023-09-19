@@ -4,17 +4,19 @@
   <div
     class="user-card w-min-10 m-4 bg-white border border-gray-300 rounded-lg shadow-md p-8 items-center transition-transform transition-shadow duration-200 ease-in hover:-translate-y-1.5 hover:shadow-lg">
     <div class="header">
-      <h2 class="text-3xl text-gray-900 mb-4 pb-2.5 border-b-2 border-gray-200 truncate-content">
+      <h2 class="text-3xl mb-4 pb-2.5 border-b-2 border-gray-200 truncate-content font-semibold text-primary-500">
         {{ data.name + ' ' + data.lastName }}
       </h2>
     </div>
-    <ul class="list-decimal pl-0 w-full">
-      <li
-        class="text-lg text-gray-600 mb-2.5 pl-4 relative before:content-['•'] before:absolute before:left-0 before:top-1/2 before:transform[-translate-y-2/4] before:text-yellow-400 truncate-content"
-        *ngFor="let routine of data.routine[0]">
-        {{ routine }}
-      </li>
-    </ul>
+    <div class="max-w-xs">
+      <ul>
+        <li class="text-neutral-800" *ngFor="let exercise of data.routine">
+          <span class="font-bold">{{ exercise.exerciseName }}</span> :
+          <span class="font-medium">{{ exercise.series }}</span> series de
+          <span class="font-medium">{{ exercise.reps }}</span> repeticiones.
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 

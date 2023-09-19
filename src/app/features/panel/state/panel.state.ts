@@ -43,9 +43,7 @@ export class PanelState {
             return {
               name: p.attributes.name,
               lastName: p.attributes.lastName,
-              routine: p.attributes.routines.data.map((r: any) => {
-                return r.attributes.excersises.split(';');
-              })
+              routine: p.attributes.routines.data[0].attributes.exercises
             };
           });
         }

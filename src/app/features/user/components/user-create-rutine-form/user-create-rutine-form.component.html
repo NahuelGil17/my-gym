@@ -1,0 +1,35 @@
+<form
+  [formGroup]="userRoutineForm"
+  (ngSubmit)="createRoutine()"
+  class="w-full min-w-max bg-white rounded-md ring-1 ring-neutral-400">
+  <h2 class="text-2xl text-primary-400 font-semibold pt-2 pl-4">Rutina</h2>
+  <div class="justify-around min-w-max flex">
+    <div class="w-full p-4">
+      <select
+        title="days"
+        appInput
+        label="Dia"
+        formControlName="day"
+        class="my-2 w-full input-default border border-neutral-600 text-neutral-800 rounded-sm h-12 p-2 font-normal">
+        <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
+      </select>
+      <input title="startTime" appInput type="time" label="Inicio" formControlName="startTime" />
+      <input title="endTime" appInput type="time" label="Cierre" formControlName="endTime" />
+    </div>
+    <div class="w-full p-4">
+      <textarea
+        class="resize-none"
+        rows="10"
+        title="routines"
+        appInput
+        type="text"
+        label="Rutina"
+        formControlName="exercises"></textarea>
+    </div>
+  </div>
+  <div class="flex justify-end mr-6 mb-4 pb-4">
+    <button appBtn color="primary" type="submit" [disabled]="userRoutineForm.invalid">
+      {{ routineToEdit ? 'Editar' : 'Crear' }}
+    </button>
+  </div>
+</form>

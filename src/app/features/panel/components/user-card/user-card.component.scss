@@ -34,14 +34,13 @@
       margin-bottom: 10px;
       padding-left: 15px;
       position: relative;
-
       &::before {
         content: '•';
         position: absolute;
         left: 0;
         top: 50%;
         transform: translateY(-50%);
-        color: #ffbf00;
+        color: #009fb7;
       }
     }
   }
