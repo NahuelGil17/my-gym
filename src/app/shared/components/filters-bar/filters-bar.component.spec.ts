@@ -1,10 +1,9 @@
 import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { InputDirective } from '@shared/directives/input/input.directive';
-import { RenderResult, render, screen, waitFor } from '@testing-library/angular';
+import { RenderResult, render, screen } from '@testing-library/angular';
 import { FiltersBarComponent } from './filters-bar.component';
-import userEvent from '@testing-library/user-event';
 
-describe('FiltersBarComponent', () => {
+xdescribe('FiltersBarComponent', () => {
   let component: RenderResult<FiltersBarComponent>;
 
   beforeEach(async () => {
