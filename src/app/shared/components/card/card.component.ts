@@ -19,7 +19,7 @@ export class CardComponent implements OnChanges {
   @Input() exercises: string[];
   exercisesParced!: {
     exerciseName: string;
-    series: number;
+    series?: number;
     reps: number;
   }[];
 
