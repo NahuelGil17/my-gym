@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
-
+import { parseExercises } from '@core/utilities/helpers';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -26,30 +26,10 @@ export class CardComponent implements OnChanges {
   @Output() readonly deleteRoutineEvent = new EventEmitter<void>();
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['exercises']) {
-      this.exercisesParced = this.parseExercises(changes['exercises'].currentValue);
+      this.exercisesParced = parseExercises(changes['exercises'].currentValue);
     }
   }
   deleteRoutine(): void {
     this.deleteRoutineEvent.emit();
-  }
-
-  parseExercises(input: string): Array<{ exerciseName: string; series: number; reps: number }> {
-    const exerciseList = input.split('.').filter((e) => e.trim() !== '');
-
-    return exerciseList.map((exerciseString) => {
-      const seriesMatch = exerciseString.match(/(\d+) series/);
-      const repsMatch = exerciseString.match(/(\d+) repeticiones/);
-
-      const series = seriesMatch ? parseInt(seriesMatch[1], 10) : 0;
-      const reps = repsMatch ? parseInt(repsMatch[1], 10) : 0;
-
-      const exerciseName = exerciseString.split(':')[0].trim();
-
-      return {
-        exerciseName,
-        series,
-        reps
-      };
-    });
   }
 }

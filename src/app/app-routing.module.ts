@@ -25,6 +25,13 @@ const routes: Routes = [
       }
     ]
   },
+
+  {
+    path: 'panel',
+    loadChildren: () => import('./features/panel/panel.module').then((m) => m.PanelModule),
+    title: 'Settings'
+  },
+
   {
     path: 'auth',
     title: 'Authentication',

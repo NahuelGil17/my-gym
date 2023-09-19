@@ -198,7 +198,11 @@ export class UserCreateComponent implements OnInit, OnDestroy {
           };
           newRoutine.startTime = this.convertTime(routine.startTime);
           newRoutine.endTime = this.convertTime(routine.endTime);
-          return this.userService.updateRoutine(newRoutine);
+          if (newRoutine.id) {
+            return this.userService.updateRoutine(newRoutine);
+          } else {
+            return this.userService.createRoutine(newRoutine);
+          }
         });
         forkJoin(routineCreationObservables)
           .pipe(
