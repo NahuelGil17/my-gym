@@ -46,11 +46,12 @@ export class UserHomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetUsers(payload));
   }
 
-  onSearch(searchQuery: { searchQ: string }): void {
+  onSearch(searchQuery: { searchQ: string; isActive: boolean }): void {
     this.filterValues = {
       page: 1,
       pageSize: this.pageSize,
-      searchQ: searchQuery.searchQ
+      searchQ: searchQuery.searchQ,
+      isActive: searchQuery.isActive
     };
 
     this.store.dispatch(new GetUsers({ ...this.filterValues }));
