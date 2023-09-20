@@ -10,10 +10,13 @@ import { environment } from 'src/environments/environment';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  getUsers(page: number, pageSize: number, searchQuery?: string): Observable<UserApiResponse[]> {
+  getUsers(page: number, pageSize: number, searchQuery?: string, isActive?: boolean): Observable<UserApiResponse[]> {
     let params = new HttpParams()
       .set('pagination[page]', page.toString())
       .set('pagination[pageSize]', pageSize.toString());
+    if (isActive) {
+      params = params.set('filters[isActive][$eq]', isActive.toString());
+    }
     if (searchQuery) {
       params = params
         .set('filters[$or][0][name][$contains]', searchQuery.toString())

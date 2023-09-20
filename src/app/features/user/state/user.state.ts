@@ -81,13 +81,13 @@ export class UserState {
   @Action(GetUsers, { cancelUncompleted: true })
   getUsers(ctx: StateContext<UserStateModel>, action: GetUsers): Observable<UserApiResponse[]> {
     ctx.patchState({ loading: true, error: null });
-    const { page, pageSize, searchQ } = action.payload;
+    const { page, pageSize, searchQ, isActive } = action.payload;
 
     let getUsersObservable: Observable<UserApiResponse[]>;
     if (searchQ === null || searchQ === undefined) {
-      getUsersObservable = this.userService.getUsers(page, pageSize);
+      getUsersObservable = this.userService.getUsers(page, pageSize, '', isActive);
     } else {
-      getUsersObservable = this.userService.getUsers(page, pageSize, searchQ);
+      getUsersObservable = this.userService.getUsers(page, pageSize, searchQ, isActive);
     }
 
     return getUsersObservable.pipe(
