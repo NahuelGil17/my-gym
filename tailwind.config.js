@@ -9,12 +9,10 @@ module.exports = {
       },
       colors: {
         primary: {
-          100: '#EBFCFF',
-          200: '#B2E5ED',
           300: '#61D1E2',
           400: '#009FB7',
           500: '#025E6C'
-        },
+},
         secondary: {
           100: '#F3EDFA',
           200: '#D3C3E5',
