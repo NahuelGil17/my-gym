@@ -2,17 +2,17 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SnackBarService } from '@core/services/snackbar.service';
-import { Actions, Store } from '@ngxs/store';
-import { UploadedDocumentObject } from '@shared/interfaces/upload-dialog.interface';
-import { Subject } from 'rxjs';
+import { AddPanel } from '@features/panel/state/panel.actions';
+import { Actions, Store, ofActionSuccessful } from '@ngxs/store';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-panel-modal',
   templateUrl: './add-panel-modal.component.html',
   styleUrls: ['./add-panel-modal.component.scss']
 })
-export class AddPanelModalComponent implements OnInit, OnDestroy {
-  /**
+export class AddPanelModalComponent implements OnDestroy, OnInit {
+  /*
    * The form group for the panel form.
    */
   panelForm!: FormGroup;
@@ -33,28 +33,31 @@ export class AddPanelModalComponent implements OnInit, OnDestroy {
    * @param snackBar The snackbar service.
    */
   constructor(
-    public dialogRef: DialogRef<UploadedDocumentObject>,
+    public dialogRef: DialogRef<any>,
     @Inject(DIALOG_DATA)
     public data: any,
     private fb: FormBuilder,
     private store: Store,
     private actions: Actions,
     private snackBar: SnackBarService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
     this.panelForm = this.fb.group({
-      accountingMethod: [null, [Validators.required]]
+      name: ['', Validators.required],
+      lastName: ['', Validators.required],
+      routine: [[], Validators.required]
+    });
+    this.actions.pipe(ofActionSuccessful(AddPanel), takeUntil(this.destroy)).subscribe(() => {
+      this.snackBar.showSuccess('Exito', 'Panel agregado correctamente');
+      this.handleCancel();
     });
   }
 
-  /**
-   * Upon component inialization subscribe to form value changes and emit form values when form is valid
-   */
-  ngOnInit(): void {
-    this.panelForm.valueChanges.subscribe((value) => {
-      if (this.panelForm.valid) {
-        this.dialogRef.close(value);
-      }
-    });
+  addPanel(): void {
+    this.store.dispatch(new AddPanel(this.panelForm.value));
   }
 
   /**

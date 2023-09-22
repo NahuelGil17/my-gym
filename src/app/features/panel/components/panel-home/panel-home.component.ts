@@ -24,11 +24,12 @@ export class PanelHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.items$.subscribe((items) => {
-      const panelRoutines: { name: string; lastName: string; routine: any[] }[] = [];
+      const panelRoutines: { id: string; name: string; lastName: string; routine: any[] }[] = [];
       let parsedRoutine = [];
       items.map((item) => {
         parsedRoutine = parseExercises(item.routine);
         panelRoutines.push({
+          id: item.id.toString(),
           name: item.name,
           lastName: item.lastName,
           routine: parsedRoutine

@@ -1,5 +1,5 @@
 export interface Panel {
-  id?: string;
+  id: string;
   name: string;
   lastName: string;
   routine: any;
