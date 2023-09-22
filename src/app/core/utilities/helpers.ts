@@ -123,7 +123,7 @@ export function parseExercises(
 
   return exerciseList.map((exerciseString) => {
     const seriesMatch = exerciseString.match(/(\d+) series/);
-    const repsMatch = exerciseString.match(/(\d+) repeticiones/);
+    const repsMatch = exerciseString.match(/(\d+) rep/);
 
     const series = seriesMatch ? parseInt(seriesMatch[1], 10) : 0;
     const reps = repsMatch ? parseInt(repsMatch[1], 10) : 0;
