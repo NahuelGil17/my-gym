@@ -73,7 +73,7 @@ export class PanelState {
     const state = ctx.getState();
     if (state.panels && Array.isArray(state.panels)) {
       ctx.patchState({
-        panels: state.panels.filter((panel) => panel.id !== action.payload)
+        panels: state.panels.filter((panel) => panel.id != action.payload)
       });
     }
   }
