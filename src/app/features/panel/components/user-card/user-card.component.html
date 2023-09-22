@@ -2,11 +2,14 @@
 <div class="flex flex-wrap">
   <!-- Card 1 -->
   <div
+    (mouseenter)="isHovering = true"
+    (mouseleave)="isHovering = false"
     class="user-card w-min-10 m-4 bg-white border border-gray-300 rounded-lg shadow-md p-8 items-center transition-transform transition-shadow duration-200 ease-in hover:-translate-y-1.5 hover:shadow-lg">
-    <div class="header">
+    <div class="header flex">
       <h2 class="text-3xl mb-4 pb-2.5 border-b-2 border-gray-200 truncate-content font-semibold text-primary-500">
         {{ data.name + ' ' + data.lastName }}
       </h2>
+      <i (click)="removePanel(data.id)" class="ph-x cursor-pointer" *ngIf="isHovering"></i>
     </div>
     <div class="max-w-xs">
       <ul>
@@ -19,5 +22,3 @@
     </div>
   </div>
 </div>
-
-<!-- TODO: SACAR EL [0] -->
