@@ -116,7 +116,9 @@ export function updateValidators(control: FormControl, valid: boolean): void {
   control.updateValueAndValidity();
 }
 
-export function parseExercises(input: string): Array<{ exerciseName: string; series: number; reps: number }> {
+export function parseExercises(
+  input: string
+): Array<{ exerciseName: string; series: number; reps: number } | { exerciseName: string; reps: number }> {
   const exerciseList = input.split('.').filter((e) => e.trim() !== '');
 
   return exerciseList.map((exerciseString) => {
@@ -128,9 +130,16 @@ export function parseExercises(input: string): Array<{ exerciseName: string; ser
 
     const exerciseName = exerciseString.split(':')[0].trim();
 
+    if (series != 0) {
+      return {
+        exerciseName,
+        series,
+        reps
+      };
+    }
+
     return {
       exerciseName,
-      series,
       reps
     };
   });

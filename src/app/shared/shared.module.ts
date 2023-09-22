@@ -47,8 +47,8 @@ import { ConcatStringPipe } from './pipes/concat-string.pipe';
 import { ConditionalTextPipe } from './pipes/conditional-text.pipe';
 import { NoDataPipe } from './pipes/no-data.pipe';
 import { PluralizePipe } from './pipes/pluralize.pipe';
-import { TimeFormatPipe } from './pipes/time-format.pipe';
 import { TranslationPipe } from './pipes/translation.pipe';
+import { TimeFormatPipe } from './pipes/time-format.pipe';
 
 @NgModule({
   declarations: [
