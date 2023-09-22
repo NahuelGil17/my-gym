@@ -5,9 +5,10 @@ import { ClockComponent } from '@features/panel/components/clock/clock.component
 import { PanelHomeComponent } from '@features/panel/components/panel-home/panel-home.component';
 import { PanelRoutingModule } from '@features/panel/panel-routing.module';
 import { AddPanelModalComponent } from './components/add-panel-modal/add-panel-modal.component';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [UserCardComponent, ClockComponent, PanelHomeComponent, AddPanelModalComponent],
-  imports: [CommonModule, PanelRoutingModule]
+  imports: [CommonModule, PanelRoutingModule, SharedModule]
 })
 export class PanelModule {}
