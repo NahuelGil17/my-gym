@@ -12,7 +12,7 @@ export class PanelService {
 
   getPanels(data: PanelPayload): Observable<any> {
     return this.http.get<any>(
-      `${environment.api}/clients?populate=*&filters[routines][day][$eq]=${data.day}&filters[routines][startTime][$eq]=${data.startTime}&filters[routines][endTime][$eq]=${data.endTime}`
+      `${environment.api}/clients?populate=*&filters[isActive][$eq]=true&filters[routines][day][$eq]=${data.day}&filters[routines][startTime][$eq]=${data.startTime}&filters[routines][endTime][$eq]=${data.endTime}`
     );
   }
 }
