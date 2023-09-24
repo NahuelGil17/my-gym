@@ -299,6 +299,7 @@ export class InputDirective implements AfterViewInit, OnDestroy, OnChanges {
     this.rendered.appendChild(this.labelInputEl, text);
     this.rendered.insertBefore(div.parentNode, this.labelInputEl, div);
     this.rendered.addClass(this.wrap, 'wrap');
+    this.rendered.addClass(this.wrap, 'w-full');
     this.rendered.addClass(div, 'w-full');
 
     this.rendered.addClass(currentElement, 'w-full');
