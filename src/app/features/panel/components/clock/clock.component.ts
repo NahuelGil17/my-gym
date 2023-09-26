@@ -24,6 +24,7 @@ export class ClockComponent implements OnInit {
       if (now.getHours() !== this.currentHour) {
         this.currentHour = now.getHours();
         this.currentHourFormatted = this.formatHour(this.currentHour);
+        this.currentDay = this.getDayName(now.getDay());
         this.onHourChange();
       }
 
