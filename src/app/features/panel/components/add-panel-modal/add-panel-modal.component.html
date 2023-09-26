@@ -1,1 +1,23 @@
-<div class="bg-white rounded-md shadow-xl transition-all p-6 w-full"></div>
+<div class="bg-white rounded-md shadow-xl transition-all p-6 w-full">
+  <form [formGroup]="panelForm" (ngSubmit)="addPanel()">
+    <h2 class="text-2xl text-primary-400 font-semibold pt-2 pl-6">Nuevo Panel</h2>
+    <div class="space-y-6 p-6">
+      <input appInput type="text" label="Nombre" placeholder="Juan" formControlName="name" />
+      <input appInput type="text" label="Apellido" placeholder="Perez" formControlName="lastName" />
+      <div class="w-full">
+        <textarea
+          class="resize-none"
+          rows="10"
+          title="routines"
+          appInput
+          type="text"
+          placeholder="Ejercicio: 3 series de 10 rep. || Angelitos: 10 rep."
+          label="Rutina"
+          formControlName="routine"></textarea>
+      </div>
+    </div>
+    <div class="flex justify-end">
+      <button appBtn color="primary" type="submit" [disabled]="panelForm.invalid">Agregar</button>
+    </div>
+  </form>
+</div>

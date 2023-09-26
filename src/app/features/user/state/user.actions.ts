@@ -2,7 +2,7 @@ import { Routine, User } from '../interfaces/user.interface';
 
 export class GetUsers {
   static readonly type = '[User] Get Users';
-  constructor(public readonly payload: { page: number; pageSize: number; searchQ?: string }) {}
+  constructor(public readonly payload: { page: number; pageSize: number; searchQ?: string; isActive?: boolean }) {}
 }
 
 export class GetUser {

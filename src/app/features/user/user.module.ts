@@ -18,6 +18,6 @@ import { UserCreateRutineFormComponent } from './components/user-create-rutine-f
     UserTableComponent,
     UserCreateRutineFormComponent
   ],
-  imports: [CommonModule, SharedModule, DashboardRoutingModule, SharedModule]
+  imports: [CommonModule, DashboardRoutingModule, SharedModule]
 })
 export class UserModule {}

@@ -1,23 +1,24 @@
-<!-- Contenedor principal -->
-<div class="flex flex-wrap">
-  <!-- Card 1 -->
+<div class="p-4">
+  <!-- Card -->
   <div
-    class="user-card w-min-10 m-4 bg-white border border-gray-300 rounded-lg shadow-md p-8 items-center transition-transform transition-shadow duration-200 ease-in hover:-translate-y-1.5 hover:shadow-lg">
-    <div class="header">
-      <h2 class="text-3xl mb-4 pb-2.5 border-b-2 border-gray-200 truncate-content font-semibold text-primary-500">
-        {{ data.name + ' ' + data.lastName }}
-      </h2>
+    (mouseenter)="isHovering = true"
+    (mouseleave)="isHovering = false"
+    class="h-[28rem] max-h-96 pb-2 overflow-hidden rounded-lg shadow-lg bg-white border border-gray-300">
+    <!-- Card Header -->
+    <div class="px-5 py-3 border-b border-gray-200 flex justify-between">
+      <h2 class="text-2xl font-semibold text-gray-700">{{ data.name + ' ' + data.lastName }}</h2>
+      <i (click)="removePanel(data.id)" class="ph-x cursor-pointer" *ngIf="isHovering"></i>
     </div>
-    <div class="max-w-xs">
-      <ul>
-        <li class="text-neutral-800" *ngFor="let exercise of data.routine">
+
+    <!-- Card Content -->
+    <div class="p-5 column-count-2 column-gap-4">
+      <ul class="list-disc pl-5">
+        <li class="text-gray-700 mb-2" *ngFor="let exercise of data.routine">
           <span class="font-bold">{{ exercise.exerciseName }}</span> :
-          <span class="font-medium">{{ exercise.series }}</span> series de
-          <span class="font-medium">{{ exercise.reps }}</span> repeticiones.
+          <span class="font-semibold" *ngIf="exercise.series">{{ exercise.series }} x </span>
+          <span class="font-semibold">{{ exercise.reps }}</span> rep.
         </li>
       </ul>
     </div>
   </div>
 </div>
-
-<!-- TODO: SACAR EL [0] -->

@@ -6,7 +6,7 @@ import { Observable, catchError, tap, throwError } from 'rxjs';
 import { PanelService } from '../services/panel.service';
 
 import { PanelStateModel } from './panel.model';
-import { GetPanels } from './panel.actions';
+import { AddPanel, GetPanels, RemovePanel } from './panel.actions';
 import { Panel } from '../interfaces/panel.interface';
 
 @State<PanelStateModel>({
@@ -39,19 +39,42 @@ export class PanelState {
         const { data } = response;
         let _panels = [];
         if (data.length) {
-          _panels = data.map((p: any) => {
+          _panels = data.map((p: any, i: number) => {
             return {
+              id: i.toString(),
               name: p.attributes.name,
               lastName: p.attributes.lastName,
               routine: p.attributes.routines.data[0].attributes.exercises
             };
           });
         }
+
         ctx.patchState({ panels: _panels, loading: false });
       }),
       catchError((err: HttpErrorResponse) => {
         return throwError(() => err);
       })
     );
+  }
+
+  @Action(AddPanel, { cancelUncompleted: true })
+  addPanel(ctx: StateContext<PanelStateModel>, action: AddPanel): void {
+    const state = ctx.getState();
+    if (state.panels && Array.isArray(state.panels)) {
+      action.payload.id = state.panels.length;
+      ctx.patchState({
+        panels: [...state.panels, action.payload]
+      });
+    }
+  }
+
+  @Action(RemovePanel, { cancelUncompleted: true })
+  removePanel(ctx: StateContext<PanelStateModel>, action: RemovePanel): void {
+    const state = ctx.getState();
+    if (state.panels && Array.isArray(state.panels)) {
+      ctx.patchState({
+        panels: state.panels.filter((panel) => panel.id != action.payload)
+      });
+    }
   }
 }

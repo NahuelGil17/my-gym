@@ -1,6 +1,8 @@
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { GetPanels } from '@features/panel/state/panel.actions';
 import { Store } from '@ngxs/store';
+import { AddPanelModalComponent } from '../add-panel-modal/add-panel-modal.component';
 
 @Component({
   selector: 'app-clock',
@@ -13,7 +15,7 @@ export class ClockComponent implements OnInit {
   currentHourFormatted: string = this.formatHour(this.currentHour);
   currentDay: string = this.getDayName(new Date().getDay());
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private dialog: Dialog) {}
 
   ngOnInit(): void {
     this.onHourChange();
@@ -51,5 +53,12 @@ export class ClockComponent implements OnInit {
   getDayName(dayNumber: number): string {
     const days = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
     return days[dayNumber];
+  }
+
+  addPanel(): void {
+    this.dialog.open(AddPanelModalComponent, {
+      height: '400px',
+      width: '600px'
+    });
   }
 }

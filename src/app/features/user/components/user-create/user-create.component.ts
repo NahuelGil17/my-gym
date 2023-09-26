@@ -182,7 +182,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
           )
           .subscribe();
 
-        this.actions.pipe(ofActionSuccessful(CreateUser)).subscribe(() => {
+        this.actions.pipe(ofActionSuccessful(CreateUser), take(1)).subscribe(() => {
           this.snackbarService.showSuccess('Usuario', 'Usuario creado exitosamente');
           this.userForm.reset();
           this.store.dispatch(new SetRoutines([]));
@@ -222,7 +222,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
             })
           )
           .subscribe();
-        this.actions.pipe(ofActionSuccessful(UpdateUser)).subscribe(() => {
+        this.actions.pipe(ofActionSuccessful(UpdateUser), take(1)).subscribe(() => {
           this.snackbarService.showSuccess('Usuario', 'Usuario actualizado exitosamente');
           this.userForm.reset();
           this.store.dispatch(new SetRoutines([]));
