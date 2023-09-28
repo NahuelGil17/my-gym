@@ -1,40 +1,42 @@
 <div class="flex justify-between w-full pt-4">
   <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
-  <button appBtn color="primary" type="submit" [disabled]="userForm.invalid" (click)="sendDataToApi()">
+  <button class="h-9" appBtn color="primary" type="submit" [disabled]="userForm.invalid" (click)="sendDataToApi()">
     {{ isEdit ? 'Guardar' : 'Crear' }} Usuario
   </button>
 </div>
-<form [formGroup]="userForm" class="flex space-y-6 w-full justify-between h-full">
-  <div class="min-w-max w-1/3 flex flex-col h-full">
-    <div class="w-full bg-white rounded-md ring-1 ring-neutral-400 mb-4 mr-4">
-      <div class="space-y-6 p-6" formGroupName="user">
-        <input appInput type="text" label="Nombre" placeholder="Juan" formControlName="name" />
-        <input appInput type="text" label="Apellido" placeholder="Perez" formControlName="lastName" />
-        <div>
-          <app-switch-input
-            formControlName="isActive"
-            title="Activo"
-            caption="Por defecto el usuario se crea activo."></app-switch-input>
+<div class="flex space-y-6 w-full justify-between h-full mt-4">
+  <form [formGroup]="userForm" class="w-full">
+    <div class="min-w-max w-full flex h-full">
+      <div class="h-[19rem] bg-white rounded-md ring-1 ring-neutral-400 w-1/2 mb-4 mr-4">
+        <div class="space-y-4 h-full p-4" formGroupName="user">
+          <input appInput type="text" label="Nombre" placeholder="Juan" formControlName="name" />
+          <input appInput type="text" label="Apellido" placeholder="Perez" formControlName="lastName" />
+          <div>
+            <app-switch-input
+              formControlName="isActive"
+              title="Activo"
+              caption="Por defecto el usuario se crea activo."></app-switch-input>
+          </div>
         </div>
       </div>
+      <app-user-create-rutine-form
+        class="w-full"
+        (formValues)="receiveRoutineFormValues($event)"
+        [routineToEdit]="routineToEdit"></app-user-create-rutine-form>
     </div>
-    <app-user-create-rutine-form
-      (formValues)="receiveRoutineFormValues($event)"
-      [routineToEdit]="routineToEdit"></app-user-create-rutine-form>
+  </form>
+</div>
+<div class="flex flex-wrap mt-4 w-full h-full">
+  <div *ngFor="let routine of routines | async; index as i" class="gap-2">
+    <app-card
+      [day]="routine.day"
+      [startTime]="routine.startTime"
+      [endTime]="routine.endTime"
+      [exercises]="routine.exercises">
+      <div class="w-full flex justify-between">
+        <button appBtn type="button" color="secondary" (click)="editRoutine(routine, i)">Editar</button>
+        <button appBtn type="button" color="destructive" (click)="deleteRoutine(i)">Eliminar</button>
+      </div>
+    </app-card>
   </div>
-  <div class="flex flex-wrap ml-10 w-full h-full">
-    <div *ngFor="let routine of routines | async; index as i" class="gap-4 m-4">
-      <app-card
-        [day]="routine.day"
-        [startTime]="routine.startTime"
-        [endTime]="routine.endTime"
-        [exercises]="routine.exercises">
-        <div class="w-full flex justify-between">
-          <button appBtn type="button" color="secondary" (click)="editRoutine(routine, i)">Editar</button>
-          <button appBtn type="button" color="destructive" (click)="deleteRoutine(i)">Eliminar</button>
-        </div>
-      </app-card>
-    </div>
-  </div>
-  <div class="flex items-end"></div>
-</form>
+</div>
