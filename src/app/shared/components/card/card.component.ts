@@ -20,7 +20,7 @@ export class CardComponent implements OnChanges {
   exercisesParced!: {
     exerciseName: string;
     series?: number;
-    reps: number;
+    reps: string;
   }[];
 
   @Output() readonly deleteRoutineEvent = new EventEmitter<void>();

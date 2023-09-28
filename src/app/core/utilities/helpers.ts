@@ -118,19 +118,20 @@ export function updateValidators(control: FormControl, valid: boolean): void {
 
 export function parseExercises(
   input: string
-): Array<{ exerciseName: string; series: number; reps: number } | { exerciseName: string; reps: number }> {
+): Array<{ exerciseName: string; series: number; reps: string } | { exerciseName: string; reps: string }> {
   const exerciseList = input.split('.').filter((e) => e.trim() !== '');
 
   return exerciseList.map((exerciseString) => {
     const seriesMatch = exerciseString.match(/(\d+) series/);
-    const repsMatch = exerciseString.match(/(\d+) rep/);
+    const repsMatch = exerciseString.match(/de\s(.+?)(\.|$)/);
 
     const series = seriesMatch ? parseInt(seriesMatch[1], 10) : 0;
-    const reps = repsMatch ? parseInt(repsMatch[1], 10) : 0;
+    const reps = repsMatch ? repsMatch[1] : ''; // Si no hay repeticiones, se pone '' asi no aparece en el panel
 
     const exerciseName = exerciseString.split(':')[0].trim();
 
-    if (series != 0) {
+    if (series) {
+      // Si series existe y no es 0
       return {
         exerciseName,
         series,
