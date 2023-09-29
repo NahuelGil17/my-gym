@@ -5,9 +5,9 @@
     (mouseleave)="isHovering = false"
     class="h-[28rem] max-h-96 pb-2 overflow-hidden rounded-lg shadow-lg bg-white border border-gray-300">
     <!-- Card Header -->
-    <div class="px-5 py-3 border-b border-gray-200 flex justify-between">
-      <h2 class="text-2xl font-semibold text-gray-700">{{ data.name + ' ' + data.lastName }}</h2>
-      <i (click)="removePanel(data.id)" class="ph-x cursor-pointer" *ngIf="isHovering"></i>
+    <div class="relative px-5 py-3 border-b border-gray-200 flex justify-center">
+      <h2 class="text-2xl font-semibold text-[#3508c3]">{{ data.name + ' ' + data.lastName }}</h2>
+      <i (click)="removePanel(data.id)" class="absolute right-4 ph-x cursor-pointer" *ngIf="isHovering"></i>
     </div>
 
     <!-- Card Content -->
