@@ -34,17 +34,26 @@ export class PanelState {
   getPanels(ctx: StateContext<PanelStateModel>, action: GetPanels): Observable<any> {
     ctx.patchState({ loading: true });
 
+    const currentDay = new Date();
+    const dayNumber = currentDay.getDay();
+    const weekDays = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const day = weekDays[dayNumber];
+
     return this.panelService.getPanels(action.payload).pipe(
       tap((response: any) => {
         const { data } = response;
         let _panels = [];
         if (data.length) {
           _panels = data.map((p: any, i: number) => {
+            const routine = p.attributes.routines.data.filter(function (r: any) {
+              return r.attributes.day == day;
+            });
+
             return {
               id: i.toString(),
               name: p.attributes.name,
               lastName: p.attributes.lastName,
-              routine: p.attributes.routines.data[0].attributes.exercises
+              routine: routine[0].attributes.exercises
             };
           });
         }
