@@ -122,11 +122,13 @@ export function parseExercises(
   const exerciseList = input.split('.').filter((e) => e.trim() !== '');
 
   return exerciseList.map((exerciseString) => {
-    const seriesMatch = exerciseString.match(/(\d+) series/);
-    const repsMatch = exerciseString.match(/de\s(.+?)(\.|$)/);
+    //execiseString = 'desde los 2: para adelante y pipe para transformar'
+    const shortenedString = exerciseString.substring(exerciseString.indexOf(':') + 1).trim();
+    const seriesMatch = shortenedString.match(/(\d+) series/);
+    const repsMatch = shortenedString.match(/de\s(.+?)(\.|$)/) || shortenedString.match(/(\d+)\srep/);
 
     const series = seriesMatch ? parseInt(seriesMatch[1], 10) : 0;
-    const reps = repsMatch ? repsMatch[1] : ''; // Si no hay repeticiones, se pone '' asi no aparece en el panel
+    const reps = repsMatch ? repsMatch[1] : 'rep'; // Si no hay repeticiones, se pone '' asi no aparece en el panel
 
     const exerciseName = exerciseString.split(':')[0].trim();
 

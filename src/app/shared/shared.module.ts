@@ -49,6 +49,7 @@ import { NoDataPipe } from './pipes/no-data.pipe';
 import { PluralizePipe } from './pipes/pluralize.pipe';
 import { TranslationPipe } from './pipes/translation.pipe';
 import { TimeFormatPipe } from './pipes/time-format.pipe';
+import { ExerciseFormatPipe } from './pipes/exercise-format.pipe';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { TimeFormatPipe } from './pipes/time-format.pipe';
     TableComponent,
     CamelToTitlePipe,
     TranslationPipe,
-    TimeFormatPipe
+    TimeFormatPipe,
+    ExerciseFormatPipe
   ],
   imports: [
     CommonModule,
@@ -148,7 +150,8 @@ import { TimeFormatPipe } from './pipes/time-format.pipe';
     CamelToTitlePipe,
     TranslateModule,
     TranslationPipe,
-    TimeFormatPipe
+    TimeFormatPipe,
+    ExerciseFormatPipe
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntlService },
