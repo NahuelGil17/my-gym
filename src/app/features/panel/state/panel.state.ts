@@ -36,7 +36,7 @@ export class PanelState {
 
     const currentDay = new Date();
     const dayNumber = currentDay.getDay();
-    const weekDays = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const weekDays = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
     const day = weekDays[dayNumber];
 
     return this.panelService.getPanels(action.payload).pipe(
